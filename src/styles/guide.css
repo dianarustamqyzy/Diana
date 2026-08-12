@@ -1,0 +1,18 @@
+.guide-overlay { position: fixed; z-index: 30; inset: 0; display: grid; place-items: center; padding: 22px; background: rgba(38,51,45,.42); backdrop-filter: blur(7px); animation: guide-appear .25s ease-out; }
+.game-guide { position: relative; width: min(670px, 100%); max-height: calc(100vh - 44px); overflow-y: auto; padding: 34px; border: 1px solid #e6ded0; border-radius: 28px; background: #fffefb; box-shadow: 0 24px 80px rgba(35,48,41,.24); }
+.game-guide > .eyebrow { margin: 0 0 8px; }
+.game-guide > h2 { max-width: 520px; margin: 0; font: 500 clamp(27px, 4vw, 38px)/1.1 Georgia, serif; }
+.guide-intro { max-width: 560px; margin: 12px 0 24px; color: var(--muted); font-size: 14px; line-height: 1.55; }
+.guide-close { position: absolute; top: 18px; right: 18px; width: 36px; height: 36px; border: 0; border-radius: 50%; background: #f2efe7; color: #657068; font-size: 23px; line-height: 1; }
+.guide-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
+.guide-step { min-height: 126px; padding: 15px; display: flex; gap: 12px; border: 1px solid var(--line); border-radius: 17px; background: #f8f6ef; }
+.guide-step > span { width: 39px; height: 39px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 12px; background: #eaf3e9; color: var(--green); font-size: 19px; font-weight: 900; }
+.guide-step small { color: var(--coral); font-size: 8px; font-weight: 900; letter-spacing: .12em; }
+.guide-step h3 { margin: 4px 0 5px; font-size: 13px; }
+.guide-step p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.45; }
+.guide-start { width: 100%; margin-top: 20px; display: flex; justify-content: space-between; }
+.guide-help { width: 32px; height: 32px; border: 1px solid #b9d2c0; border-radius: 50%; background: #eff7f0; color: var(--green); font-weight: 900; }
+.greeting-actions { display: flex; align-items: center; gap: 8px; }
+@keyframes guide-appear { from { opacity: 0; } }
+@media (max-width: 570px) { .game-guide { padding: 26px 18px 20px; border-radius: 22px; }.guide-steps { grid-template-columns: 1fr; }.guide-step { min-height: auto; }.guide-close { top: 12px; right: 12px; } }
+@media (prefers-reduced-motion: reduce) { .guide-overlay { animation: none; } }
