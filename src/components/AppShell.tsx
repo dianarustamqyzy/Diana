@@ -13,11 +13,21 @@ const links = [
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [location] = useLocation();
-  const { coins } = useGame();
+  const { coins, petName, completed } = useGame();
   return (
     <div className="app-shell">
       <header className="topbar">
-        <Link href="/game" className="mini-brand"><span>YC</span><strong>Your cute Animal!</strong></Link>
+        <div className="topbar-brand-group">
+          <Link href="/game" className={`mini-brand${location === '/pet-home' ? ' mobile-hidden-at-home' : ''}`}><span>YC</span><strong>Your cute Animal!</strong></Link>
+          {location === '/pet-home' && (
+            <p className="mobile-home-welcome">Добро пожаловать домой, {petName}!</p>
+          )}
+          {location === '/game' && (
+            <p className="mobile-pet-status">
+              {petName} сегодня {completed.length ? 'сияет' : 'ждёт заботы'} ✨
+            </p>
+          )}
+        </div>
         <div className="coin-pill"><span>●</span> {coins}</div>
       </header>
       <main className="page-content">{children}</main>

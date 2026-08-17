@@ -25,7 +25,7 @@
     top: 4px;
     right: 8px;
     left: 8px;
-    align-items: flex-start;
+    align-items: center;
     flex-direction: row;
     padding: 12px;
     border: 1px solid rgba(255, 255, 255, .7);
@@ -33,6 +33,10 @@
     background: rgba(255, 254, 251, .86);
     backdrop-filter: blur(10px);
     box-shadow: 0 8px 24px rgba(38, 51, 45, .1);
+  }
+
+  .pet-stage .greeting-copy {
+    display: none;
   }
 
   .pet-stage .greeting p {
@@ -48,9 +52,13 @@
     align-self: flex-start;
   }
 
-  .pet-stage .enter-home-button {
-    top: 148px;
-    left: 12px;
+  .pet-stage .desktop-enter-home-button {
+    display: none;
+  }
+
+  .pet-stage .mobile-enter-home-button {
+    position: static;
+    display: flex;
   }
 
   .pet-stage .pet-scene {
@@ -59,6 +67,8 @@
     margin: 0;
     border: 0;
     border-radius: 0;
+    background-position: center;
+    background-size: 100% 100%;
   }
 
   .mobile-scene-hint {
@@ -82,10 +92,6 @@
     pointer-events: none;
   }
 
-  .mobile-scene-hint--garden {
-    bottom: 60px;
-  }
-
   .pet-home-page {
     position: relative;
     padding: 0;
@@ -107,6 +113,10 @@
     box-shadow: 0 8px 24px rgba(38, 51, 45, .12);
   }
 
+  .pet-home-heading > div:first-child {
+    display: none;
+  }
+
   .pet-home-heading h1 {
     font-size: clamp(23px, 7vw, 31px);
   }
@@ -125,10 +135,58 @@
     min-height: 0;
     border: 0;
     border-radius: 0;
+    background-position: center;
+    background-size: 100% 100%;
   }
 
-  .mobile-scene-hint--home {
-    bottom: 12px;
+  .home-table-foreground,
+  .home-toilet-foreground {
+    background-position: center;
+    background-size: 100% 100%;
+  }
+
+  .home-place--bath {
+    left: 0;
+    width: 21%;
+  }
+
+  .home-place--toilet {
+    left: 24%;
+    width: 13%;
+  }
+
+  .home-place--table {
+    right: 0;
+    left: auto;
+    top: 20%;
+    width: 42%;
+    height: 34%;
+  }
+
+  .home-place--bed {
+    right: 0;
+    bottom: 0;
+    width: 34%;
+    height: 48%;
+  }
+
+  .home-place--wardrobe {
+    left: 0;
+    bottom: 0;
+    width: 26%;
+    height: 42%;
+  }
+
+  .home-pet--table {
+    left: 57%;
+  }
+
+  .home-toilet-foreground {
+    clip-path: polygon(25.4% 34.2%, 31.5% 34.2%, 31.6% 36.8%, 31% 39.8%, 29.8% 41.5%, 27.5% 41.3%, 26.1% 39%, 25.5% 36.5%);
+  }
+
+  .home-table-meal {
+    left: 70.5%;
   }
 
   .home-place strong {
@@ -143,11 +201,5 @@
 
   .home-place strong span {
     font-size: 14px;
-  }
-}
-
-@media (max-width: 380px) {
-  .pet-stage .enter-home-button {
-    top: 158px;
   }
 }

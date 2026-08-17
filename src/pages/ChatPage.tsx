@@ -3,7 +3,9 @@ import { ChatMessage } from '../components/ChatMessage';
 import { PetPortrait } from '../components/PetPortrait';
 import { useGame } from '../context/GameContext';
 import { petOptions } from '../data/gameData';
+import { getTodayKey } from '../lib/dailyStorage';
 import { askPet, ChatMessageData } from '../lib/petChat';
+import { loadDailyChat, saveDailyChat } from '../lib/petChatStorage';
 
 const quickMessages = ['Как у тебя дела?', 'Давай поиграем!', 'Расскажи секрет 🤫'];
 
@@ -11,39 +13,63 @@ function makeMessage(role: ChatMessageData['role'], text: string): ChatMessageDa
   return { id: crypto.randomUUID(), role, text };
 }
 
+function makeGreeting(playerName: string): ChatMessageData[] {
+  return [makeMessage('pet', `Привет, ${playerName}! Я так рад, что у нас теперь есть свой чат. Как ты?`)];
+}
+
+interface ChatSession {
+  date: string;
+  messages: ChatMessageData[];
+}
+
 export function ChatPage() {
   const { petName, petType, playerName } = useGame();
   const pet = petOptions.find((option) => option.id === petType) ?? petOptions[0];
   const storageKey = `pet-chat-${petType}-${petName}`;
-  const [messages, setMessages] = useState<ChatMessageData[]>(() => {
-    const saved = localStorage.getItem(storageKey);
-    if (saved) {
-      try { return JSON.parse(saved) as ChatMessageData[]; } catch { /* Начинаем новый чат. */ }
-    }
-    return [makeMessage('pet', `Привет, ${playerName}! Я так рад, что у нас теперь есть свой чат. Как ты?` )];
-  });
+  const [session, setSession] = useState<ChatSession>(() => ({
+    date: getTodayKey(),
+    messages: loadDailyChat(storageKey) ?? makeGreeting(playerName),
+  }));
   const [text, setText] = useState('');
   const [isReplying, setIsReplying] = useState(false);
   const [error, setError] = useState('');
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    localStorage.setItem(storageKey, JSON.stringify(messages));
+    saveDailyChat(storageKey, session.messages, session.date);
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, storageKey]);
+  }, [session, storageKey]);
+
+  useEffect(() => {
+    const checkForNewDay = () => {
+      const today = getTodayKey();
+      setSession((current) => current.date === today
+        ? current
+        : { date: today, messages: makeGreeting(playerName) });
+    };
+    const timer = window.setInterval(checkForNewDay, 30_000);
+    window.addEventListener('focus', checkForNewDay);
+    return () => {
+      window.clearInterval(timer);
+      window.removeEventListener('focus', checkForNewDay);
+    };
+  }, [playerName]);
 
   async function sendMessage(messageText: string) {
     const cleanText = messageText.trim();
     if (!cleanText || isReplying) return;
-    const nextMessages = [...messages, makeMessage('user', cleanText)];
-    setMessages(nextMessages);
+    const requestDate = session.date;
+    const nextMessages = [...session.messages, makeMessage('user', cleanText)];
+    setSession((current) => ({ ...current, messages: nextMessages }));
     setText('');
     setError('');
     setIsReplying(true);
 
     try {
       const reply = await askPet(nextMessages, petName, petType, playerName);
-      setMessages((current) => [...current, makeMessage('pet', reply)]);
+      setSession((current) => current.date === requestDate
+        ? { ...current, messages: [...current.messages, makeMessage('pet', reply)] }
+        : current);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Что-то пошло не так.');
     } finally {
@@ -64,7 +90,7 @@ export function ChatPage() {
       </header>
 
       <div className="chat-window" aria-live="polite">
-        {messages.map((message) => <ChatMessage key={message.id} message={message} petImage={pet.image} petName={petName} />)}
+        {session.messages.map((message) => <ChatMessage key={message.id} message={message} petImage={pet.image} petName={petName} />)}
         {isReplying && <div className="typing"><i /><i /><i /><span>{petName} печатает…</span></div>}
         <div ref={bottomRef} />
       </div>

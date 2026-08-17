@@ -77,7 +77,6 @@ export function PetHomeRoom({
 
   return (
     <div ref={roomRef} className="pet-home-room" style={{ backgroundImage: `url(${roomImage})` }}>
-      <p className="mobile-scene-hint mobile-scene-hint--home">Нажми на мебель или перетащи питомца</p>
       <div className="home-places">
         {homePlaces.map((place) => (
           <button

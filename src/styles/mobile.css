@@ -26,6 +26,14 @@ canvas {
     padding-left: max(14px, env(safe-area-inset-left));
   }
 
+  .mobile-pet-status {
+    display: block;
+    max-width: 150px;
+    margin: 0;
+    font: 600 clamp(13px, 3.8vw, 16px)/1.08 Georgia, serif;
+    overflow-wrap: normal;
+  }
+
   .page-content {
     width: calc(100% - 20px);
     max-width: 540px;

@@ -11,6 +11,9 @@
 
 .app-shell { min-height: 100vh; padding-bottom: 90px; background: var(--cream); }
 .topbar { height: 76px; padding: 0 max(5vw, 24px); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); background: rgba(255, 254, 251, .88); backdrop-filter: blur(14px); }
+.topbar-brand-group { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.mobile-pet-status { display: none; }
+.mobile-home-welcome { display: none; }
 .mini-brand { display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: .05em; font-size: 13px; }
 .mini-brand > span, .brand-mark { width: 37px; height: 37px; border-radius: 12px 12px 12px 4px; display: grid; place-items: center; background: var(--coral); color: white; font-weight: 900; transform: rotate(-4deg); }
 .coin-pill { background: #fff3ce; color: #8e6720; border: 1px solid #f1dda0; border-radius: 999px; padding: 9px 15px; font-weight: 800; }
@@ -26,6 +29,8 @@
 @media (max-width: 600px) {
   .topbar { height: 64px; padding: 0 16px; }
   .mini-brand strong { display: none; }
+  .mini-brand.mobile-hidden-at-home { display: none; }
+  .mobile-home-welcome { display: block; max-width: min(64vw, 270px); margin: 0; font: 600 clamp(17px, 5vw, 22px)/1.05 Georgia, serif; }
   .page-content { width: min(100% - 24px, 540px); }
   .bottom-nav { bottom: 8px; width: calc(100% - 16px); justify-content: space-around; border-radius: 20px; }
   .nav-item { min-width: 0; flex: 1; padding: 8px 4px; }

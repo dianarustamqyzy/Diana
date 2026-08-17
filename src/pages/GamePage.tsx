@@ -30,7 +30,7 @@ export function GamePage() {
     setIsGuideOpen(false);
   }, []);
 
-  if (isBedtime) {
+  if (isBedtime || isToiletNeeded || isBathing) {
     return <Redirect to="/pet-home" replace />;
   }
 
@@ -38,10 +38,13 @@ export function GamePage() {
     <div className="dashboard">
       <section className="pet-stage">
         <div className="greeting">
-          <div>
+          <div className="greeting-copy">
             <p>{isBedtime ? 'Добрый вечер' : 'Доброе утро'}, {playerName}!</p>
             <h1>{isBedtime ? `${petName} уже видит сладкие сны` : `${petName} сегодня ${completed.length ? 'сияет' : 'ждёт заботы'} ✨`}</h1>
           </div>
+          <Link href="/pet-home" className={`enter-home-button mobile-enter-home-button${isToiletNeeded ? ' needs-attention' : ''}`}>
+            <span aria-hidden="true">{isToiletNeeded ? '🚽' : '⌂'}</span> {isToiletNeeded ? 'Сам идёт в туалет' : 'Зайти домой'}
+          </Link>
           <div className="greeting-actions">
             <button className="guide-help" type="button" onClick={() => setIsGuideOpen(true)} aria-label="Как играть" title="Как играть">?</button>
             <div className="level-progress">
@@ -51,7 +54,7 @@ export function GamePage() {
           </div>
         </div>
         <div className={`pet-scene${isBedtime ? ' pet-scene--night' : ''}`} style={{ backgroundImage: `url(${cottageGarden})` }}>
-          <Link href="/pet-home" className={`enter-home-button${isToiletNeeded ? ' needs-attention' : ''}`}>
+          <Link href="/pet-home" className={`enter-home-button desktop-enter-home-button${isToiletNeeded ? ' needs-attention' : ''}`}>
             <span aria-hidden="true">{isToiletNeeded ? '🚽' : '⌂'}</span> {isToiletNeeded ? 'Сам идёт в туалет' : 'Зайти домой'}
           </Link>
           <WalkingPet
@@ -61,7 +64,6 @@ export function GamePage() {
             isBedtime={isBedtime}
           />
         </div>
-        <p className="mobile-scene-hint mobile-scene-hint--garden">Проведи вверх: там забота и миссии ↓</p>
       </section>
 
       <aside className="care-panel">
