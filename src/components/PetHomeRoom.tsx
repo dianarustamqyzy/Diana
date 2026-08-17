@@ -6,7 +6,7 @@ import { useDraggablePet } from '../hooks/useDraggablePet';
 import { PetPortrait } from './PetPortrait';
 import { SleepingPetPose } from './SleepingPetPose';
 
-type HomePlace = 'bath' | 'toilet' | 'table' | 'bed' | 'wardrobe';
+type HomePlace = 'center' | 'bath' | 'toilet' | 'table' | 'bed' | 'wardrobe';
 const homePlaces: { id: HomePlace; icon: string; title: string }[] = [
   { id: 'bath', icon: '🚿', title: 'Ванная' },
   { id: 'toilet', icon: '🚽', title: 'Туалет' },
@@ -31,7 +31,7 @@ export function PetHomeRoom({
   careWishText, onStartBath, onOpenAccessoryShop,
 }: PetHomeRoomProps) {
   const pet = petOptions.find((option) => option.id === petType) ?? petOptions[0];
-  const [activePlace, setActivePlace] = useState<HomePlace>(isBedtime ? 'bed' : 'table');
+  const [activePlace, setActivePlace] = useState<HomePlace>(isBedtime ? 'bed' : 'center');
   const isUsingToilet = isToiletNeeded;
   const roomRef = useRef<HTMLDivElement>(null);
   const petRef = useRef<HTMLDivElement>(null);
