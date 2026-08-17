@@ -11,15 +11,7 @@ interface AiErrorResponse {
   error?: unknown;
 }
 
-const petPersonalities: Record<PetType, string> = {
-  dragon: 'смелый, добрый и немного волшебный',
-  fox: 'любознательный, находчивый и весёлый',
-  cat: 'ласковый, уютный и игривый',
-  dog: 'верный, энергичный и очень дружелюбный',
-  bunny: 'нежный, заботливый и любящий природу',
-  hedgehog: 'спокойный, мудрый и немного застенчивый',
-  hamster: 'забавный, бодрый и любящий вкусняшки',
-};
+const sharedPetPersonality = 'добрый, заботливый, весёлый и дружелюбный';
 
 async function readFunctionError(cause: unknown) {
   if (!(cause instanceof Error) || !('context' in cause)) return '';
@@ -47,7 +39,7 @@ export async function askPet(
 
   const system = [
     `Ты виртуальный ${petLabel.toLowerCase()} по имени ${petName}.`,
-    `Твой характер: ${petPersonalities[petType]}.`,
+    `Твой характер: ${sharedPetPersonality}.`,
     `Ты общаешься с другом по имени ${playerName} на русском языке.`,
     'Отвечай тепло, естественно и коротко: 1–3 предложения.',
     'Иногда используй подходящие эмодзи, но не ставь их в каждом предложении.',

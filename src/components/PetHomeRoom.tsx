@@ -10,7 +10,6 @@ type HomePlace = 'bath' | 'toilet' | 'table' | 'bed' | 'wardrobe';
 const homePlaces: { id: HomePlace; icon: string; title: string }[] = [
   { id: 'bath', icon: '🚿', title: 'Ванная' },
   { id: 'toilet', icon: '🚽', title: 'Туалет' },
-  { id: 'table', icon: '🍽️', title: 'Стол' },
   { id: 'bed', icon: '🛏️', title: 'Кровать' },
   { id: 'wardrobe', icon: '👕', title: 'Шкаф' },
 ];
@@ -22,14 +21,14 @@ interface PetHomeRoomProps {
   isToiletNeeded: boolean;
   isBathing: boolean;
   activeMeal: PetMeal | null;
+  careWishText: string | null;
   onStartBath: () => void;
-  onOpenCareShop: () => void;
   onOpenAccessoryShop: () => void;
 }
 
 export function PetHomeRoom({
   petType, petName, isBedtime, isToiletNeeded, isBathing, activeMeal,
-  onStartBath, onOpenCareShop, onOpenAccessoryShop,
+  careWishText, onStartBath, onOpenAccessoryShop,
 }: PetHomeRoomProps) {
   const pet = petOptions.find((option) => option.id === petType) ?? petOptions[0];
   const [activePlace, setActivePlace] = useState<HomePlace>(isBedtime ? 'bed' : 'table');
@@ -70,7 +69,6 @@ export function PetHomeRoom({
     if (shouldSleep || activeMeal || isBathing || isUsingToilet) return;
     resetPosition();
     setActivePlace(place);
-    if (place === 'table') window.setTimeout(onOpenCareShop, 650);
     if (place === 'wardrobe') window.setTimeout(onOpenAccessoryShop, 650);
     if (place === 'bath') onStartBath();
   }
@@ -106,6 +104,9 @@ export function PetHomeRoom({
           <PetPortrait className="home-pet-image" image={pet.image} />
         )}
         {activePlace === 'bed' && <span className="home-sleep-cloud" aria-hidden="true">Z z z</span>}
+        {careWishText && !shouldSleep && !isUsingToilet && !isBathing && !activeMeal && (
+          <span className="home-pet-wish" role="status">{careWishText}</span>
+        )}
         <span className="home-pet-shadow" aria-hidden="true" />
       </div>
       {(isUsingToilet || isBathing) && (

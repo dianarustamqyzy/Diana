@@ -1,15 +1,6 @@
-import { PetType } from '../data/gameData';
 import { playPetSound } from './sounds';
 
-const voicePitch: Record<PetType, number> = {
-  dragon: 0.82,
-  fox: 1.08,
-  cat: 1.18,
-  dog: 0.96,
-  bunny: 1.22,
-  hedgehog: 1.02,
-  hamster: 1.28,
-};
+const PET_VOICE_PITCH = 1.05;
 
 const awakePhrases = [
   'Давай выберем игру в игровой комнате! 🎮',
@@ -39,7 +30,7 @@ export function getNextPetPhrase(currentPhrase: string, isBedtime: boolean) {
   return availablePhrases[Math.floor(Math.random() * availablePhrases.length)] ?? phrases[0];
 }
 
-export function speakPet(text: string, type: PetType) {
+export function speakPet(text: string) {
   if (!('speechSynthesis' in window)) {
     playPetSound();
     return;
@@ -51,7 +42,7 @@ export function speakPet(text: string, type: PetType) {
   utterance.voice = voices.find((voice) => voice.lang.toLowerCase().startsWith('ru')) ?? null;
   utterance.lang = 'ru-RU';
   utterance.rate = 0.92;
-  utterance.pitch = voicePitch[type];
+  utterance.pitch = PET_VOICE_PITCH;
   utterance.volume = 0.9;
 
   window.speechSynthesis.cancel();

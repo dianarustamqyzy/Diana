@@ -8,7 +8,6 @@ import { CareStats, GameState } from './gameState';
 import { usePetToilet } from '../hooks/usePetToilet';
 import { usePetMeal } from '../hooks/usePetMeal';
 import { usePetHygiene } from '../hooks/usePetHygiene';
-import { useAutonomousCare } from '../hooks/useAutonomousCare';
 
 const GameContext = createContext<GameState | null>(null);
 
@@ -39,9 +38,6 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const { isToiletNeeded } = usePetToilet();
   const { activeMeal, startMeal } = usePetMeal();
   const { isBathing, startBath } = usePetHygiene(isToiletNeeded || Boolean(activeMeal));
-
-  useAutonomousCare({ wishes, activeMeal, isBusy: isToiletNeeded || isBathing, coins, inventory,
-    setCoins, setInventory, setCare, setCareRoutine, startMeal });
 
   useEffect(() => {
     saveDailyProgress({

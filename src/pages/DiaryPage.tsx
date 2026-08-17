@@ -31,7 +31,7 @@ export function DiaryPage() {
     <section className="standard-page diary-page">
       <header className="page-heading">
         <div><p className="eyebrow">ТВОЯ ИСТОРИЯ</p><h1>Дневник приключений</h1><p>{petName} любит узнавать, как прошёл твой день.</p></div>
-        <div className="streak"><span>🔥</span><div><strong>7 дней</strong><small>ПОДРЯД</small></div></div>
+        <div className="streak"><span>🔥</span><div><strong>7&nbsp;дней</strong><small>ПОДРЯД</small></div></div>
       </header>
       <div className="diary-layout">
         <form className="diary-form" onSubmit={save}>
@@ -46,7 +46,7 @@ export function DiaryPage() {
           <p>Неделю назад было 6 часов, а теперь — почти 8. {petName} вырос благодаря тебе!</p>
         </aside>
       </div>
-      <article className="memory-card"><span>{mood}</span><div><small>СЕГОДНЯ</small><p>{savedNote}</p></div><span className="memory-heart">♥</span></article>
+      <article className="diary-memory-card"><span>{mood}</span><div><small>СЕГОДНЯ</small><p>{savedNote}</p></div><span className="memory-heart">♥</span></article>
     </section>
   );
 }

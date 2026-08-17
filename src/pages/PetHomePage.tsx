@@ -2,20 +2,23 @@ import { useCallback } from 'react';
 import { Link, useLocation } from 'wouter';
 import { PetHomeRoom } from '../components/PetHomeRoom';
 import { useGame } from '../context/GameContext';
+import { shopItems } from '../data/shopData';
 import { usePetBedtime } from '../hooks/usePetBedtime';
 
 export function PetHomePage() {
-  const { petName, petType, activeMeal, isToiletNeeded, isBathing, startBath } = useGame();
+  const { petName, petType, wishes, activeMeal, isToiletNeeded, isBathing, startBath } = useGame();
   const isBedtime = usePetBedtime();
   const [, navigate] = useLocation();
-  const openCareShop = useCallback(
-    () => navigate('/shop?category=food&from=table'),
-    [navigate],
-  );
   const openAccessoryShop = useCallback(
     () => navigate('/shop?category=accessories&from=wardrobe'),
     [navigate],
   );
+  const wantedItem = shopItems.find((item) => item.id === (wishes.food ?? wishes.water));
+  const careWishText = wishes.food
+    ? `Я хочу кушать! Может, купим ${wantedItem?.name.toLowerCase() ?? 'что-нибудь вкусное'} в магазине?`
+    : wishes.water
+      ? `Я хочу пить! Может, купим ${wantedItem?.name.toLowerCase() ?? 'напиток'} в магазине?`
+      : null;
 
   return (
     <section className="pet-home-page">
@@ -38,8 +41,8 @@ export function PetHomePage() {
         isToiletNeeded={isToiletNeeded}
         isBathing={isBathing}
         activeMeal={activeMeal}
+        careWishText={careWishText}
         onStartBath={startBath}
-        onOpenCareShop={openCareShop}
         onOpenAccessoryShop={openAccessoryShop}
       />
     </section>
