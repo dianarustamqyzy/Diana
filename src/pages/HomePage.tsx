@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { useLocation } from 'wouter';
+import { Link, useLocation } from 'wouter';
 import { PetAvatar } from '../components/PetAvatar';
 import { PetPortrait } from '../components/PetPortrait';
 import sittingFriends from '../assets/pets/sitting-friends.png';
@@ -8,10 +8,10 @@ import { useGame } from '../context/GameContext';
 
 export function HomePage() {
   const [, navigate] = useLocation();
-  const { startGame } = useGame();
-  const [petType, setPetType] = useState<PetType>('cat');
-  const [petName, setPetName] = useState('Рыжик');
-  const [playerName, setPlayerName] = useState('');
+  const { startGame, playerName: savedPlayerName, petName: savedPetName, petType: savedPetType } = useGame();
+  const [petType, setPetType] = useState<PetType>(savedPetType);
+  const [petName, setPetName] = useState(savedPetName);
+  const [playerName, setPlayerName] = useState(savedPlayerName);
 
   function submit(event: FormEvent) {
     event.preventDefault();
@@ -36,13 +36,12 @@ export function HomePage() {
       </section>
 
       <form className="setup-card" onSubmit={submit}>
-        <div className="speech-bubble">Привет! Если ты будешь заботиться обо мне, мы вместе спасём мир!</div>
         <PetAvatar type={petType} mood="happy" size="large" />
         <h2>Кто станет твоим другом?</h2>
         <div className="pet-picker">
           {petOptions.map((pet) => (
             <button className={petType === pet.id ? 'pet-choice active' : 'pet-choice'} key={pet.id} type="button" onClick={() => setPetType(pet.id)}>
-              <PetPortrait className="pet-choice-image" image={pet.image} />{pet.label}
+              <PetPortrait className={`pet-choice-image pet-choice-image--${pet.id}`} image={pet.image} />{pet.label}
             </button>
           ))}
         </div>
@@ -51,6 +50,7 @@ export function HomePage() {
           <label>Имя питомца<input value={petName} onChange={(e) => setPetName(e.target.value)} placeholder="Например, Искорка" /></label>
         </div>
         <button className="primary-button" type="submit">Начать приключение <span>→</span></button>
+        <Link className="register-link" href="/register">Нет аккаунта? Зарегистрироваться</Link>
       </form>
     </main>
   );

@@ -1,4 +1,5 @@
 import { ChatMessageData } from '../lib/petChat';
+import { PetPortrait } from './PetPortrait';
 
 interface ChatMessageProps {
   message: ChatMessageData;
@@ -11,7 +12,7 @@ export function ChatMessage({ message, petImage, petName }: ChatMessageProps) {
 
   return (
     <article className={`chat-message chat-message--${message.role}`}>
-      {isPet && <img src={petImage} alt="" className="chat-avatar" />}
+      {isPet && <PetPortrait image={petImage} className="chat-avatar" />}
       <div>
         <small>{isPet ? petName : 'Ты'}</small>
         <p>{message.text}</p>

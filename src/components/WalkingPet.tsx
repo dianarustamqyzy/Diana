@@ -1,33 +1,33 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PetType, petOptions } from '../data/gameData';
-import { getNextPetPhrase, speakPet } from '../lib/petSpeech';
 import { PetPortrait } from './PetPortrait';
+import { PetDrawing } from './PetDrawing';
+import {
+  PetActivity,
+  PetActivityDecoration,
+  petActivities,
+  petActivityLabels,
+} from './PetActivityDecoration';
 import { SleepingPet } from './SleepingPet';
 
-const activities = ['walking', 'watching', 'playing', 'drawing', 'eating'] as const;
-type PetActivity = typeof activities[number];
 type PetMood = 'happy' | 'hopeful' | 'sad' | 'angry';
 
-const SHORT_ACTIVITY_MS = 6_500;
-const LONG_ACTIVITY_MS = 30 * 60 * 1_000;
+const MIN_ACTIVITY_MS = 2 * 60_000;
+const MAX_ACTIVITY_MS = 3 * 60_000;
+
+function getActivityDuration() {
+  return MIN_ACTIVITY_MS + Math.random() * (MAX_ACTIVITY_MS - MIN_ACTIVITY_MS);
+}
 
 function getNextActivityIndex(currentIndex: number, stoppedActivities: PetActivity[]) {
-  let nextIndex = (currentIndex + 1) % activities.length;
+  let nextIndex = (currentIndex + 1) % petActivities.length;
 
-  while (stoppedActivities.includes(activities[nextIndex])) {
-    nextIndex = (nextIndex + 1) % activities.length;
+  while (stoppedActivities.includes(petActivities[nextIndex])) {
+    nextIndex = (nextIndex + 1) % petActivities.length;
   }
 
   return nextIndex;
 }
-
-const activityLabels: Record<PetActivity, string> = {
-  walking: 'Гуляет по саду',
-  watching: 'Смотрит на тебя',
-  playing: 'Играет в футбол',
-  drawing: 'Рисует картину',
-  eating: 'Кушает яблочко',
-};
 
 function getMood(completedCount: number, totalMissions: number): PetMood {
   if (completedCount === totalMissions) return 'happy';
@@ -36,64 +36,27 @@ function getMood(completedCount: number, totalMissions: number): PetMood {
   return new Date().getHours() >= 18 ? 'angry' : 'sad';
 }
 
-export function WalkingPet({ type, completedCount, totalMissions, isBedtime, speechText }: {
+export function WalkingPet({ type, completedCount, totalMissions, isBedtime }: {
   type: PetType;
   completedCount: number;
   totalMissions: number;
   isBedtime: boolean;
-  speechText: string;
 }) {
   const pet = petOptions.find((item) => item.id === type) ?? petOptions[0];
   const [activityIndex, setActivityIndex] = useState(0);
   const [stoppedActivities, setStoppedActivities] = useState<PetActivity[]>([]);
-  const [isTalking, setIsTalking] = useState(false);
-  const [currentSpeech, setCurrentSpeech] = useState(speechText);
-  const wandererRef = useRef<HTMLDivElement>(null);
-  const talkingTimerRef = useRef<number>();
-  const activity = activities[activityIndex];
+  const activity = petActivities[activityIndex];
   const mood = getMood(completedCount, totalMissions);
 
   useEffect(() => {
     if (isBedtime) return;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reducedMotion) return;
-    const duration = activity === 'playing' || activity === 'drawing'
-      ? LONG_ACTIVITY_MS
-      : SHORT_ACTIVITY_MS;
     const timer = window.setTimeout(() => {
       setActivityIndex((current) => getNextActivityIndex(current, stoppedActivities));
-    }, duration);
+    }, getActivityDuration());
     return () => window.clearTimeout(timer);
   }, [activity, isBedtime, stoppedActivities]);
-
-  useEffect(() => {
-    setCurrentSpeech(speechText);
-  }, [speechText]);
-
-  useEffect(() => {
-    const timer = window.setInterval(() => {
-      setCurrentSpeech((current) => getNextPetPhrase(current, isBedtime));
-    }, 10_000);
-    return () => window.clearInterval(timer);
-  }, [isBedtime]);
-
-  useEffect(() => {
-    if (!isBedtime && currentSpeech !== speechText) {
-      speakPet(currentSpeech, type);
-    }
-  }, [currentSpeech, isBedtime, speechText, type]);
-
-  useEffect(() => () => window.clearTimeout(talkingTimerRef.current), []);
-
-  function talk() {
-    window.clearTimeout(talkingTimerRef.current);
-    setIsTalking(true);
-    speakPet(currentSpeech, type);
-    talkingTimerRef.current = window.setTimeout(
-      () => setIsTalking(false),
-      Math.max(1700, currentSpeech.length * 65),
-    );
-  }
 
   function stopActivity(activityToStop: PetActivity) {
     const nextStoppedActivities = [...stoppedActivities, activityToStop];
@@ -101,18 +64,11 @@ export function WalkingPet({ type, completedCount, totalMissions, isBedtime, spe
     setActivityIndex((current) => getNextActivityIndex(current, nextStoppedActivities));
   }
 
-  const speechBubble = (
-    <button className={`pet-message${isTalking ? ' is-talking' : ''}`} type="button" onClick={talk}>
-      <span>{currentSpeech}</span>
-      <span className="pet-voice-waves" aria-hidden="true"><i /><i /><i /></span>
-    </button>
-  );
-  const isWalking = activity === 'walking';
+  const isMoving = activity === 'walking' || activity === 'playing' || activity === 'butterfly';
 
   if (isBedtime) {
     return (
       <>
-        {speechBubble}
         <div className="activity-label activity-label--sleeping">Спит в пижаме до утра</div>
         <SleepingPet type={type} />
       </>
@@ -121,33 +77,24 @@ export function WalkingPet({ type, completedCount, totalMissions, isBedtime, spe
 
   return (
     <>
-      {speechBubble}
       <div className="activity-controls">
-        <div className={`activity-label activity-label--${activity}`}>{activityLabels[activity]}</div>
+        <div className={`activity-label activity-label--${activity}`}>{petActivityLabels[activity]}</div>
         {(activity === 'playing' || activity === 'drawing') && (
           <button className="stop-activity-button" type="button" onClick={() => stopActivity(activity)}>
             Стоп
           </button>
         )}
       </div>
-      <div ref={wandererRef} className={`pet-wanderer activity-${activity} mood-${mood}`}>
-        <button className="walking-pet" type="button" onClick={talk}
-          aria-label={`${pet.label}. ${activityLabels[activity]}. Нажми, чтобы питомец заговорил`} title="Нажми, чтобы питомец заговорил">
-          {isWalking ? (
-            <span className="walking-pet-sprite" style={{ backgroundImage: `url(${pet.walkImage})` }} />
-          ) : (
-            <PetPortrait className="watching-pet-image" image={pet.walkImage} />
-          )}
-          {activity === 'eating' && <span className="pet-snack" aria-hidden="true">🍎</span>}
-          {activity === 'playing' && <span className="pet-ball" aria-hidden="true">⚽</span>}
-          {activity === 'drawing' && (
-            <span className="pet-art" aria-hidden="true">
-              <span className="pet-canvas">🌈</span>
-              <span className="pet-palette">🎨</span>
-            </span>
-          )}
+      <div className={`pet-wanderer activity-${activity} mood-${mood}`}>
+        <div className="walking-pet" role="img" aria-label={`${pet.label}. ${petActivityLabels[activity]}`}>
+          <PetPortrait
+            className={`watching-pet-image${isMoving ? ' moving-pet-image' : ''}`}
+            image={pet.image}
+          />
+          <PetActivityDecoration activity={activity} />
+          {activity === 'drawing' && <PetDrawing />}
           <span className="walking-pet-shadow" aria-hidden="true" />
-        </button>
+        </div>
       </div>
     </>
   );

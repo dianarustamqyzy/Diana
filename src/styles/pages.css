@@ -21,21 +21,19 @@
 .shop-showcase small { margin-bottom: 4px; font-size: 9px; font-weight: 900; letter-spacing: .14em; opacity: .8; }
 .shop-showcase strong { font: 500 21px Georgia, serif; }
 .shop-showcase > span { padding: 8px 12px; flex: 0 0 auto; border-radius: 999px; background: rgba(255,255,255,.16); font-size: 11px; font-weight: 800; }
+.shop-showcase > a { padding: 8px 12px; flex: 0 0 auto; border-radius: 999px; background: rgba(255,255,255,.18); font-size: 11px; font-weight: 900; }
 .shop-categories { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 3px; }
 .shop-categories button { padding: 10px 15px; flex: 0 0 auto; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: var(--card); font-weight: 800; cursor: pointer; }
 .shop-categories button.active { border-color: var(--green); color: #fff; background: var(--green); }
 .shop-card { position: relative; transition: transform .2s, box-shadow .2s; }
 .shop-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(55,64,55,.08); }
 .shop-card.owned { border-color: #bdd3c2; }
+.shop-card.wanted { border-color: #ef9a87; box-shadow: 0 10px 28px rgba(239,118,93,.13); }
 .item-picture { position: relative; }
 .item-quantity { position: absolute; z-index: 1; top: 10px; left: 10px; padding: 5px 8px; border-radius: 999px; color: #526557 !important; background: rgba(255,255,255,.9); font-size: 10px !important; font-weight: 900; }
+.wanted-label { position: absolute; z-index: 2; right: 10px; bottom: 10px; padding: 6px 9px; border-radius: 999px; color: #fff !important; background: var(--coral); font-size: 10px !important; font-weight: 900; }
 .shop-card-actions { display: grid; gap: 7px; }
 .shop-card .give-button { background: var(--green); }
-.feeding-reaction { margin: -2px 0 20px; padding: 15px 20px; display: flex; align-items: center; gap: 14px; border: 1px solid #c8ddcc; border-radius: 18px; background: #eef7ed; animation: feeding-pop .35s ease-out; }
-.feeding-reaction .feeding-emoji { font-size: 38px; animation: feeding-bite .7s ease-in-out; }
-.feeding-reaction p { margin: 3px 0 0; color: var(--muted); font-size: 12px; }
-@keyframes feeding-pop { from { opacity: 0; transform: translateY(-8px); } }
-@keyframes feeding-bite { 50% { transform: scale(.72) rotate(-8deg); } }
 .item-picture.rose { background: #f7e5e8; }
 .item-picture.yellow { background: #f8f0d5; }
 .item-picture.sky { background: #e3f1f3; }

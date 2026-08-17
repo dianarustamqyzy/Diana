@@ -1,0 +1,92 @@
+.enter-home-button { position: absolute; z-index: 6; top: 18px; left: 18px; display: flex; align-items: center; gap: 8px; padding: 11px 16px; border: 1px solid rgba(255,255,255,.7); border-radius: 999px; color: #fff; background: rgba(63,91,60,.82); backdrop-filter: blur(7px); font-size: 12px; font-weight: 900; box-shadow: 0 8px 24px rgba(35,52,31,.2); transition: transform .2s, background .2s; }
+.enter-home-button:hover { transform: translateY(-2px); background: rgba(51,79,51,.94); }
+.enter-home-button.needs-attention { color: #713b28; background: #fff0d1; border-color: #ffca75; animation: toilet-pulse 1.4s ease-in-out infinite; }
+.enter-home-button span { font-size: 18px; line-height: 1; }
+.pet-home-page { padding: 42px 0 30px; }
+.pet-home-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
+.pet-home-heading h1 { margin: 5px 0 7px; font: 500 clamp(31px, 4vw, 46px)/1.1 Georgia, serif; }
+.pet-home-heading p { margin: 0; color: var(--muted); }
+.pet-home-actions { display: flex; flex: 0 0 auto; align-items: center; gap: 10px; }
+.leave-home-button { flex: 0 0 auto; padding: 12px 17px; border: 1px solid #cbd9c9; border-radius: 999px; color: var(--green); background: #f7fbf6; font-size: 12px; font-weight: 900; }
+.pet-home-room { position: relative; aspect-ratio: 3 / 2; overflow: hidden; border: 1px solid #cba77f; border-radius: 30px; background-position: center; background-size: cover; box-shadow: 0 18px 45px rgba(70,61,50,.15); }
+.home-places { position: absolute; z-index: 2; inset: 0; }
+.home-place { position: absolute; border: 3px solid transparent; border-radius: 24px; color: #4b3b2d; background: transparent; transition: border-color .2s, background .2s, box-shadow .2s; }
+.home-place strong { position: absolute; left: 50%; bottom: 8px; padding: 6px 11px; border-radius: 999px; background: rgba(255,253,247,.92); box-shadow: 0 5px 14px rgba(74,48,31,.18); font-size: 12px; transform: translateX(-50%); opacity: 0; transition: opacity .2s; }
+.home-place:hover, .home-place.active { border-color: rgba(255,255,255,.95); background: rgba(255,239,211,.12); box-shadow: inset 0 0 0 3px rgba(113,75,43,.25); }
+.home-place:disabled { cursor: wait; }
+.home-place:hover strong, .home-place.active strong { opacity: 1; }
+.home-place--bath { left: 1%; top: 15%; width: 19%; height: 34%; }
+.home-place--toilet { left: 24%; top: 21%; width: 12%; height: 28%; }
+.home-place--table { right: 16%; top: 24%; width: 22%; height: 24%; }
+.home-place--bed { right: 1%; bottom: 3%; width: 38%; height: 45%; }
+.home-place--wardrobe { left: 1%; bottom: 3%; width: 20%; height: 39%; }
+.home-place.needs-attention { border-color: #ef7e5e; background: rgba(255,241,221,.22); animation: toilet-pulse 1.4s ease-in-out infinite; }
+.home-pet { position: absolute; z-index: 4; width: 18%; height: 35%; border: 0; background: transparent; transition: left .55s ease, top .55s ease, transform .55s ease; cursor: grab; touch-action: none; user-select: none; }
+.home-pet.is-dragging { z-index: 7; transition: none; cursor: grabbing; }
+.home-pet:focus-visible { outline: 3px solid #fff; outline-offset: 3px; border-radius: 24px; }
+.home-pet--bath { left: 16%; top: 31%; transform: scale(1); }
+.home-pet--toilet { --toilet-pet-scale: 1; left: 19%; top: 7%; transform: scale(var(--toilet-pet-scale)); transform-origin: center bottom; animation: pet-sit-down .55s ease-out both; }
+.home-pet--table { left: 54.5%; top: 27%; transform: scale(1); }
+.home-pet--bed { z-index: 3; left: 65%; top: 56%; width: 24%; height: 29%; transform: rotate(8deg); cursor: default; }
+.home-pet--wardrobe { left: 17%; top: 59%; transform: scale(1); }
+.home-pet.is-positioned { transform: scale(1); }
+.home-pet-image { position: absolute; inset: 15% 0 0; display: block; background-position: center; background-size: contain; filter: drop-shadow(0 10px 8px rgba(64,52,42,.24)); }
+.home-pet-shadow { position: absolute; left: 50%; bottom: 4%; width: 58%; height: 8%; border-radius: 50%; background: rgba(66,50,37,.22); filter: blur(5px); transform: translateX(-50%); }
+.home-pet--table .home-pet-image { inset: 8% 2% 0; }
+.home-pet--toilet .home-pet-image { inset: 15% 0 0; background-position: center bottom; }
+.home-toilet-foreground { position: absolute; z-index: 5; inset: 0; background-position: center; background-size: cover; clip-path: polygon(25.4% 34.2%, 31.5% 34.2%, 31.6% 36.8%, 31% 39.8%, 29.8% 41.5%, 27.5% 41.3%, 26.1% 39%, 25.5% 36.5%); pointer-events: none; }
+.bathroom-door { position: absolute; z-index: 8; left: .2%; top: 3%; width: 36.4%; height: 49%; overflow: hidden; border: 7px solid #8b5a32; border-radius: 58px 12px 22px 0; background: linear-gradient(90deg, rgba(255,255,255,.16), transparent 18%, rgba(75,39,17,.12) 19%, transparent 22%), repeating-linear-gradient(90deg, #bd7a3f 0 24%, #a96632 24% 26%, #c88444 26% 50%); box-shadow: inset -12px 0 18px rgba(75,39,17,.18), 8px 8px 20px rgba(47,33,22,.24); transform-origin: left center; animation: close-bathroom-door .5s ease-out both; pointer-events: none; }
+.bathroom-door::before { content: ''; position: absolute; inset: 7% 8% 9%; border: 3px solid rgba(105,58,27,.58); border-radius: 42px 7px 10px 4px; box-shadow: inset 0 0 0 5px rgba(235,170,98,.16); }
+.bathroom-door-sign { position: absolute; left: 50%; top: 43%; padding: 7px 11px; border: 2px solid #795031; border-radius: 999px; color: #654329; background: #f5e6c9; box-shadow: 0 4px 8px rgba(63,36,20,.2); font-size: clamp(9px, 1vw, 13px); font-weight: 900; transform: translate(-50%, -50%); }
+.bathroom-door-handle { position: absolute; right: 8%; top: 53%; width: clamp(9px, 1.2vw, 17px); aspect-ratio: 1; border: 2px solid #6b4827; border-radius: 50%; background: #d9aa55; box-shadow: 0 2px 4px rgba(60,36,19,.3); }
+.home-sleeping-pose { top: 46%; height: 135%; transform: translate(-50%, -50%) rotate(76deg) scale(.9); animation: sleepy-breath 2.8s ease-in-out infinite; }
+.home-pet--bed .home-pet-shadow { left: 55%; bottom: 13%; width: 80%; opacity: .15; }
+.home-sleep-cloud { position: absolute; z-index: 6; right: -8%; top: -18%; color: #fff; font: 800 clamp(15px, 1.7vw, 24px) Georgia, serif; letter-spacing: .13em; text-shadow: 0 2px 7px rgba(76,53,31,.5); animation: sleep-float 2s ease-in-out infinite; }
+.home-table-foreground { position: absolute; z-index: 5; inset: 0; background-position: center; background-size: cover; clip-path: polygon(63% 27%, 80% 27%, 83% 34%, 82% 41%, 76% 41%, 76% 48%, 70% 48%, 70% 41%, 66% 41%, 66% 34%); pointer-events: none; }
+.home-table-meal { position: absolute; z-index: 6; left: 70.5%; top: 29%; display: grid; width: clamp(30px, 3.4vw, 50px); aspect-ratio: 1; place-items: center; border: 4px solid rgba(255,255,255,.92); border-radius: 50%; background: #f8e6c9; box-shadow: 0 4px 9px rgba(74,48,31,.25); font-size: clamp(18px, 2vw, 29px); transform: translate(-50%, -50%); animation: meal-bite .7s ease-in-out infinite alternate; }
+.home-pet.is-eating .home-pet-image { animation: pet-eating .7s ease-in-out infinite alternate; }
+.home-pet.is-bathing { opacity: 0; }
+.help-toilet-button { position: absolute; z-index: 6; left: 50%; top: 96%; width: max-content; padding: 10px 14px; border: 0; border-radius: 999px; color: #fff; background: #d96f52; box-shadow: 0 8px 18px rgba(115,62,45,.22); font-size: 12px; font-weight: 900; transform: translateX(-50%); pointer-events: auto; }
+.help-toilet-button:disabled { color: #436248; background: #e0eee0; cursor: default; }
+@keyframes toilet-pulse { 50% { box-shadow: 0 0 0 7px rgba(239,126,94,.25); } }
+@keyframes close-bathroom-door { from { transform: perspective(800px) rotateY(-88deg); } to { transform: perspective(800px) rotateY(0); } }
+@keyframes pet-sit-down {
+  from { transform: translateY(-18px) scale(var(--toilet-pet-scale)); }
+  to { transform: translateY(0) scale(var(--toilet-pet-scale)); }
+}
+@keyframes pet-eating { to { transform: translateY(4px) rotate(1deg); } }
+@keyframes meal-bite { to { transform: scale(.88) rotate(-4deg); } }
+@keyframes sleepy-breath { 50% { transform: translate(-50%, -50%) rotate(76deg) scale(.92); } }
+@media (prefers-reduced-motion: reduce) {
+  .home-pet--toilet, .home-pet.is-eating .home-pet-image, .home-table-meal, .home-sleeping-pose, .home-sleep-cloud, .bathroom-door { animation: none; }
+}
+@media (max-width: 750px) {
+  .pet-home-page { padding-top: 28px; }
+  .pet-home-heading { align-items: flex-start; flex-direction: column; }
+  .pet-home-actions { width: 100%; flex-wrap: wrap; }
+  .pet-home-room { min-height: 440px; aspect-ratio: auto; background-position: center; }
+  .home-place--table { left: 48%; right: auto; top: 24%; width: 34%; height: 32%; }
+  .home-table-foreground { background-position: center; }
+  .home-toilet-foreground { background-position: center; clip-path: polygon(14% 34.2%, 25% 34.2%, 25.3% 36.8%, 24.3% 39.8%, 22% 41.5%, 18% 41.3%, 15% 39%, 14% 36.5%); }
+  .bathroom-door { width: 38%; border-radius: 40px 10px 18px 0; }
+  .home-place strong { opacity: 1; font-size: 10px; }
+  .home-pet { width: 110px; height: 145px; }
+  .home-pet--toilet { left: 12%; top: 8%; }
+  .home-pet--table { left: 44%; top: 27%; }
+}
+@media (max-width: 430px) {
+  .pet-home-actions > * { flex: 1; text-align: center; }
+  .pet-home-room { min-height: 430px; background-position: 44% center; }
+  .home-place--bath { width: 22%; }
+  .home-place--toilet { left: 23%; width: 15%; }
+  .home-place--table { left: 46%; right: auto; width: 38%; height: 29%; }
+  .home-place--bed { width: 42%; }
+  .home-pet--bath, .home-pet--wardrobe { left: 15%; }
+  .home-pet--toilet { left: 10%; top: 8%; }
+  .home-pet--table { left: 38%; top: 28%; }
+  .home-pet--bed { left: 55%; width: 31%; }
+  .home-table-foreground { background-position: 44% center; }
+  .home-toilet-foreground { background-position: 44% center; clip-path: polygon(16% 34.2%, 26.5% 34.2%, 26.8% 36.8%, 25.8% 39.8%, 23.5% 41.5%, 19.5% 41.3%, 17% 39%, 16% 36.5%); }
+  .bathroom-door { width: 40%; }
+  .home-table-meal { left: 69%; }
+}

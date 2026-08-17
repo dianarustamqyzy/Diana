@@ -1,31 +1,41 @@
 import { useState } from 'react';
+import { Link, useLocation, useSearch } from 'wouter';
 import { ShopCard } from '../components/ShopCard';
 import { useGame } from '../context/GameContext';
-import { shopItems, ShopCategory } from '../data/gameData';
+import { shopItems, ShopCategory } from '../data/shopData';
 
-type CategoryFilter = 'all' | ShopCategory;
+type CategoryFilter = 'all' | 'care' | ShopCategory;
 
 const categories: { id: CategoryFilter; label: string }[] = [
   { id: 'all', label: '✨ Всё' },
+  { id: 'care', label: '🍽️ Еда и напитки' },
   { id: 'clothes', label: '🧢 Одежда' },
   { id: 'toys', label: '🧸 Игрушки' },
   { id: 'food', label: '🍎 Еда' },
   { id: 'drinks', label: '🥛 Напитки' },
+  { id: 'accessories', label: '🎒 Аксессуары' },
   { id: 'home', label: '⛺ Уют' },
 ];
 
 export function ShopPage() {
-  const [category, setCategory] = useState<CategoryFilter>('all');
-  const [reaction, setReaction] = useState<{ emoji: string; name: string; verb: string } | null>(null);
-  const { coins, purchased, inventory, buyItem, giveItem, petName } = useGame();
+  const search = useSearch();
+  const requestedCategory = new URLSearchParams(search).get('category');
+  const fromHome = new URLSearchParams(search).has('from');
+  const initialCategory = categories.some((item) => item.id === requestedCategory)
+    ? requestedCategory as CategoryFilter
+    : 'all';
+  const [category, setCategory] = useState<CategoryFilter>(initialCategory);
+  const [, navigate] = useLocation();
+  const { coins, purchased, inventory, wishes, buyItem, giveItem, petName } = useGame();
   const visibleItems = category === 'all'
     ? shopItems
-    : shopItems.filter((item) => item.category === category);
+    : category === 'care'
+      ? shopItems.filter((item) => item.category === 'food' || item.category === 'drinks')
+      : shopItems.filter((item) => item.category === category);
 
   function giveToPet(item: (typeof shopItems)[number]) {
     giveItem(item);
-    const verb = item.effect?.stat === 'water' ? 'выпил' : 'съел';
-    setReaction({ emoji: item.emoji, name: item.name, verb });
+    navigate('/pet-home');
   }
 
   return (
@@ -35,15 +45,9 @@ export function ShopPage() {
         <div className="wallet"><span>●</span><div><small>ТВОИ МОНЕТКИ</small><strong>{coins}</strong></div></div>
       </header>
       <div className="shop-showcase">
-        <div><span>🎁</span><p><small>ВИТРИНА НЕДЕЛИ</small><strong>Собери новый образ для {petName}</strong></p></div>
-        <span>{shopItems.length} подарков</span>
+        <div><span>{fromHome ? '🏠' : '🎁'}</span><p><small>{fromHome ? 'ИЗ ДОМИКА' : 'ВИТРИНА НЕДЕЛИ'}</small><strong>{category === 'care' ? `${petName} сидит за столом и ждёт угощение` : category === 'accessories' ? `${petName} выбирает аксессуар у шкафа` : `Собери новый образ для ${petName}`}</strong></p></div>
+        {fromHome ? <Link href="/pet-home">← В комнату</Link> : <span>{shopItems.length} подарков</span>}
       </div>
-      {reaction && (
-        <div className="feeding-reaction" role="status">
-          <span className="feeding-emoji">{reaction.emoji}</span>
-          <div><strong>{petName} с удовольствием всё {reaction.verb}!</strong><p>{reaction.name} помог восстановить силы. Вкусно! 💚</p></div>
-        </div>
-      )}
       <div className="shop-categories" aria-label="Категории магазина">
         {categories.map((item) => (
           <button key={item.id} className={category === item.id ? 'active' : ''} onClick={() => setCategory(item.id)}>
@@ -59,6 +63,7 @@ export function ShopPage() {
             isOwned={purchased.includes(item.id)}
             canBuy={coins >= item.price}
             quantity={inventory[item.id] ?? 0}
+            isWanted={Object.values(wishes).includes(item.id)}
             onBuy={() => buyItem(item)}
             onGive={() => giveToPet(item)}
           />

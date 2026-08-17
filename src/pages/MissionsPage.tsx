@@ -5,17 +5,19 @@ import { Mission, missions } from '../data/gameData';
 import { createCustomMission, loadCustomMissions } from '../lib/customMissions';
 
 export function MissionsPage() {
-  const { completed, completeMission, playerName } = useGame();
+  const { completed, completeMission, playerName, today } = useGame();
   const [customMissions, setCustomMissions] = useState<Mission[]>([]);
   const [customTitle, setCustomTitle] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState('');
 
   useEffect(() => {
+    setCustomMissions([]);
+    setMessage('');
     loadCustomMissions()
       .then(setCustomMissions)
       .catch(() => setMessage('Не получилось загрузить твои миссии. Попробуй обновить страницу.'));
-  }, []);
+  }, [today]);
 
   async function addMission(event: FormEvent) {
     event.preventDefault();

@@ -1,18 +1,29 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useGame } from '../context/GameContext';
+import { loadDailyDiary, saveDailyDiary } from '../lib/dailyStorage';
 
 const moods = ['😊', '🤩', '😌', '😴', '😔'];
 
 export function DiaryPage() {
-  const { petName } = useGame();
-  const [mood, setMood] = useState('😊');
+  const { petName, today } = useGame();
+  const savedDiary = loadDailyDiary();
+  const [mood, setMood] = useState(savedDiary?.mood ?? '😊');
   const [note, setNote] = useState('');
-  const [savedNote, setSavedNote] = useState('Сегодня я начал новое полезное приключение!');
+  const [savedNote, setSavedNote] = useState(savedDiary?.note ?? 'Сегодня ещё нет записи. Расскажи, как прошёл твой день!');
+
+  useEffect(() => {
+    const currentDiary = loadDailyDiary();
+    setMood(currentDiary?.mood ?? '😊');
+    setNote('');
+    setSavedNote(currentDiary?.note ?? 'Сегодня ещё нет записи. Расскажи, как прошёл твой день!');
+  }, [today]);
 
   function save(event: FormEvent) {
     event.preventDefault();
     if (!note.trim()) return;
-    setSavedNote(note.trim());
+    const savedText = note.trim();
+    saveDailyDiary(mood, savedText);
+    setSavedNote(savedText);
     setNote('');
   }
 

@@ -1,0 +1,45 @@
+.games-heading-icon { width: 82px; height: 82px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 25px; background: #e6f0e4; font-size: 39px; transform: rotate(4deg); }
+.games-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+.game-card { min-height: 245px; padding: 28px; display: grid; grid-template-columns: auto 1fr; grid-template-rows: 1fr auto; gap: 20px; overflow: hidden; border: 1px solid var(--line); border-radius: 26px; background: var(--card); box-shadow: var(--shadow); transition: transform .2s, box-shadow .2s; }
+.game-card:hover { transform: translateY(-4px); box-shadow: 0 22px 55px rgba(66,73,63,.14); }
+.game-card-icon { width: 82px; height: 82px; display: grid; place-items: center; border-radius: 23px; font-size: 42px; background: #edf5ea; }
+.game-card.coral .game-card-icon { color: var(--coral); background: #fae8e1; }
+.game-card small { color: var(--green); font-size: 9px; font-weight: 900; letter-spacing: .14em; }
+.game-card h2 { margin: 5px 0 8px; font: 500 28px Georgia, serif; }
+.game-card p { max-width: 320px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+.game-card > strong { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; padding-top: 18px; border-top: 1px solid var(--line); color: var(--green); font-size: 13px; }
+.game-card > strong span { font-size: 20px; }
+
+.snake-page { padding: 30px 0 70px; }
+.back-to-games { display: inline-block; margin-bottom: 22px; color: var(--green); font-size: 12px; font-weight: 800; }
+.snake-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 28px; margin-bottom: 24px; }
+.snake-heading h1 { margin: 5px 0 8px; font: 500 clamp(36px, 5vw, 52px)/1 Georgia, serif; }
+.snake-heading > div > p:last-child { margin: 0; color: var(--muted); }
+.snake-score { display: flex; gap: 8px; padding: 8px; border: 1px solid var(--line); border-radius: 18px; background: var(--card); }
+.snake-score span { min-width: 82px; padding: 8px 13px; text-align: center; border-radius: 12px; background: #f2f6ef; }
+.snake-score small, .snake-score strong { display: block; }
+.snake-score small { color: var(--muted); font-size: 8px; letter-spacing: .12em; }
+.snake-score strong { margin-top: 3px; font-size: 22px; }
+.snake-game-card { padding: clamp(18px, 4vw, 40px); display: grid; grid-template-columns: minmax(280px, 520px) 1fr; align-items: center; gap: clamp(28px, 6vw, 70px); border: 1px solid var(--line); border-radius: 28px; background: var(--card); box-shadow: var(--shadow); }
+.snake-board-wrap { position: relative; }
+.snake-board { aspect-ratio: 1; padding: 9px; display: grid; grid-template-columns: repeat(14, 1fr); gap: 3px; border: 2px solid #cbdcc8; border-radius: 25px; background: #e4eee1; box-shadow: inset 0 3px 10px rgba(55,70,58,.1); }
+.snake-cell { min-width: 0; border-radius: 4px; background: rgba(255,255,255,.45); }
+.snake-cell.body, .snake-cell.head { background: #68a681; box-shadow: inset 0 -3px 0 rgba(42,91,63,.18); }
+.snake-cell.head { background: #3f805f; border-radius: 7px; }
+.snake-cell.food { display: grid; place-items: center; background: #fff9ed; font-size: clamp(11px, 2.1vw, 22px); }
+.snake-overlay { position: absolute; inset: 9%; display: grid; place-content: center; justify-items: center; padding: 20px; text-align: center; border: 1px solid rgba(255,255,255,.9); border-radius: 24px; background: rgba(255,254,251,.94); backdrop-filter: blur(9px); box-shadow: 0 18px 50px rgba(48,55,48,.2); }
+.snake-overlay > span { font-size: 42px; }
+.snake-overlay h2 { margin: 8px 0 3px; font: 500 26px Georgia, serif; }
+.snake-overlay p { margin: 4px 0 18px; color: var(--muted); font-size: 12px; }
+.snake-overlay button, .snake-actions button { border: 0; border-radius: 12px; padding: 11px 16px; color: white; background: var(--green); font-weight: 800; }
+.snake-tools h2 { margin: 4px 0 22px; font: 500 28px Georgia, serif; }
+.snake-tools > p { color: var(--muted); font-size: 12px; line-height: 1.55; }
+.snake-controls { width: 190px; display: grid; grid-template-columns: repeat(3, 56px); gap: 7px; }
+.snake-controls button { width: 56px; height: 56px; border: 1px solid #d7ded3; border-radius: 15px; color: var(--green); background: #f1f6ef; font-size: 23px; font-weight: 900; }
+.snake-controls button:first-child { grid-column: 2; }
+.snake-controls button:nth-child(2) { grid-column: 1; }
+.snake-controls button:hover { color: white; background: var(--green); }
+.snake-actions { display: flex; gap: 8px; margin-top: 18px; }
+.snake-actions button:last-child { color: var(--green); background: #edf4eb; }
+@media (max-width: 760px) { .games-grid, .snake-game-card { grid-template-columns: 1fr; }.snake-heading { align-items: stretch; flex-direction: column; }.snake-score { align-self: flex-start; }.snake-board { max-width: 520px; margin: auto; }.snake-tools { display: grid; justify-items: center; text-align: center; }.snake-page { padding-top: 22px; } }
+@media (max-width: 520px) { .games-grid { grid-template-columns: 1fr; }.game-card { min-height: 220px; padding: 21px; }.game-card-icon { width: 66px; height: 66px; font-size: 34px; }.games-heading-icon { display: none; }.snake-game-card { padding: 12px; border-radius: 20px; }.snake-board { padding: 6px; gap: 2px; border-radius: 18px; }.snake-cell { border-radius: 2px; }.snake-cell.food { font-size: 11px; } }

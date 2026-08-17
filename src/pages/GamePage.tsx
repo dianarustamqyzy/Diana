@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Link } from 'wouter';
+import { Link, Redirect } from 'wouter';
 import { GameGuide } from '../components/GameGuide';
 import { StatBar } from '../components/StatBar';
 import { TodayStory } from '../components/TodayStory';
@@ -7,23 +7,18 @@ import { WalkingPet } from '../components/WalkingPet';
 import { useGame } from '../context/GameContext';
 import { missions } from '../data/gameData';
 import { usePetBedtime } from '../hooks/usePetBedtime';
+import { getNextGiftLevel } from '../lib/levelProgress';
 import { playSuccessSound } from '../lib/sounds';
 import cottageGarden from '../assets/scenes/cottage-garden.jpg';
 
 export function GamePage() {
-  const { playerName, petName, petType, completed, care, completeMission } = useGame();
+  const { playerName, petName, petType, level, completed, care, isToiletNeeded, isBathing, completeMission } = useGame();
   const isBedtime = usePetBedtime();
   const [isGuideOpen, setIsGuideOpen] = useState(() => localStorage.getItem('pet-guide-seen') !== 'yes');
   const nextMission = missions.find((mission) => !completed.includes(mission.id));
   const completedMissions = missions.filter((mission) => completed.includes(mission.id));
   const bonus = completed.length * 3;
-  const level = Math.floor(completed.length / 3) + 1;
-  const petMessage = isBedtime
-    ? 'Тс-с… Я надел пижаму и лёг спать 🌙'
-    : nextMission
-      ? `${playerName}, ${nextMission.task.toLowerCase()}! ${nextMission.icon}`
-      : 'Ура! Все миссии выполнены! 🌟';
-
+  const nextGiftLevel = getNextGiftLevel(level);
   function finishNextMission() {
     if (!nextMission) return;
     completeMission(nextMission.id);
@@ -35,6 +30,10 @@ export function GamePage() {
     setIsGuideOpen(false);
   }, []);
 
+  if (isBedtime) {
+    return <Redirect to="/pet-home" replace />;
+  }
+
   return (
     <div className="dashboard">
       <section className="pet-stage">
@@ -45,18 +44,24 @@ export function GamePage() {
           </div>
           <div className="greeting-actions">
             <button className="guide-help" type="button" onClick={() => setIsGuideOpen(true)} aria-label="Как играть" title="Как играть">?</button>
-            <span className="level-badge">Уровень {level}</span>
+            <div className="level-progress">
+              <span className="level-badge">Уровень {level}</span>
+              <small>🎁 подарок на {nextGiftLevel}-м</small>
+            </div>
           </div>
         </div>
         <div className={`pet-scene${isBedtime ? ' pet-scene--night' : ''}`} style={{ backgroundImage: `url(${cottageGarden})` }}>
+          <Link href="/pet-home" className={`enter-home-button${isToiletNeeded ? ' needs-attention' : ''}`}>
+            <span aria-hidden="true">{isToiletNeeded ? '🚽' : '⌂'}</span> {isToiletNeeded ? 'Сам идёт в туалет' : 'Зайти домой'}
+          </Link>
           <WalkingPet
             type={petType}
             completedCount={completed.length}
             totalMissions={missions.length}
             isBedtime={isBedtime}
-            speechText={petMessage}
           />
         </div>
+        <p className="mobile-scene-hint mobile-scene-hint--garden">Проведи вверх: там забота и миссии ↓</p>
       </section>
 
       <aside className="care-panel">
@@ -65,6 +70,8 @@ export function GamePage() {
           <StatBar icon="💧" label="Вода" value={Math.min(care.water + bonus, 100)} color="blue" />
           <StatBar icon="☾" label="Сон" value={Math.min(78 + bonus, 100)} color="purple" />
           <StatBar icon="🍎" label="Еда" value={Math.min(care.food + bonus, 100)} color="orange" />
+          <StatBar icon="🚽" label="Туалет" value={isToiletNeeded ? 15 : 100} color="green" />
+          <StatBar icon="🫧" label="Чистота" value={isBathing ? 75 : 100} color="blue" />
           <StatBar icon="♡" label="Настроение" value={Math.min(86 + bonus, 100)} color="pink" />
         </div>
         {nextMission && (

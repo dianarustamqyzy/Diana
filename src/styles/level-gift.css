@@ -1,0 +1,14 @@
+.level-gift-backdrop { position: fixed; z-index: 50; inset: 0; display: grid; place-items: center; padding: 20px; background: rgba(38,51,45,.54); backdrop-filter: blur(6px); animation: gift-backdrop-in .25s ease-out; }
+.level-gift { width: min(390px, 100%); padding: 30px 28px 28px; overflow: hidden; border: 1px solid #f1dda0; border-radius: 28px; background: #fffefb; box-shadow: 0 28px 80px rgba(38,51,45,.28); text-align: center; animation: gift-pop-in .42s cubic-bezier(.2,.9,.3,1.2); }
+.level-gift-sparkles { color: #eeb73f; font-size: 22px; letter-spacing: .45em; animation: gift-sparkle 1.3s ease-in-out infinite alternate; }
+.level-gift-box { display: block; margin: 8px 0 4px; font-size: 82px; line-height: 1.15; filter: drop-shadow(0 10px 10px rgba(132,90,34,.15)); }
+.level-gift p { margin: 8px 0 5px; color: var(--green); font-size: 10px; font-weight: 900; letter-spacing: .16em; }
+.level-gift h2 { margin: 0; font: 500 36px Georgia, serif; }
+.level-gift strong { display: block; margin: 17px 0 5px; color: #a87721; font-size: 22px; }
+.level-gift > span:last-of-type { display: block; color: var(--muted); font-size: 13px; }
+.level-gift button { width: 100%; margin-top: 23px; padding: 13px 18px; border: 0; border-radius: 13px; color: white; background: var(--coral); font-weight: 900; box-shadow: 0 8px 18px rgba(239,118,93,.24); }
+.level-gift button:focus-visible { outline: 3px solid rgba(239,118,93,.35); outline-offset: 3px; }
+@keyframes gift-backdrop-in { from { opacity: 0; } }
+@keyframes gift-pop-in { from { opacity: 0; transform: translateY(18px) scale(.88); } }
+@keyframes gift-sparkle { to { opacity: .55; transform: scale(1.08); } }
+@media (prefers-reduced-motion: reduce) { .level-gift-backdrop, .level-gift, .level-gift-sparkles { animation: none; } }

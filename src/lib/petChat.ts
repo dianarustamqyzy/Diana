@@ -7,6 +7,10 @@ export interface ChatMessageData {
   text: string;
 }
 
+interface AiErrorResponse {
+  error?: unknown;
+}
+
 const petPersonalities: Record<PetType, string> = {
   dragon: 'смелый, добрый и немного волшебный',
   fox: 'любознательный, находчивый и весёлый',
@@ -16,6 +20,19 @@ const petPersonalities: Record<PetType, string> = {
   hedgehog: 'спокойный, мудрый и немного застенчивый',
   hamster: 'забавный, бодрый и любящий вкусняшки',
 };
+
+async function readFunctionError(cause: unknown) {
+  if (!(cause instanceof Error) || !('context' in cause)) return '';
+  const context = cause.context;
+  if (!(context instanceof Response)) return '';
+
+  try {
+    const body = await context.clone().json() as AiErrorResponse;
+    return typeof body.error === 'string' ? body.error.trim() : '';
+  } catch {
+    return '';
+  }
+}
 
 export async function askPet(
   messages: ChatMessageData[],
@@ -34,6 +51,7 @@ export async function askPet(
     `Ты общаешься с другом по имени ${playerName} на русском языке.`,
     'Отвечай тепло, естественно и коротко: 1–3 предложения.',
     'Иногда используй подходящие эмодзи, но не ставь их в каждом предложении.',
+    'Чаще дружелюбно предлагай вместе открыть мини-игры или выполнить одну из полезных миссий.',
     'Не говори, что ты AI, и не подписывай ответ своим именем.',
     'Не давай опасных советов. Если другу грустно или страшно, поддержи и предложи поговорить со взрослым, которому он доверяет.',
   ].join(' ');
@@ -42,7 +60,10 @@ export async function askPet(
     body: { prompt: `Продолжи этот диалог от лица ${petName}:\n${history}`, system },
   });
 
-  if (error) throw new Error('Не получилось получить ответ питомца.');
+  if (error) {
+    const functionMessage = await readFunctionError(error);
+    throw new Error(functionMessage || 'Не получилось получить ответ питомца.');
+  }
   if (!data?.text?.trim()) throw new Error(data?.error ?? 'Питомец задумался и не ответил.');
   return data.text.trim();
 }

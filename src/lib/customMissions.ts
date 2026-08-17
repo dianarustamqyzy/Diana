@@ -1,5 +1,6 @@
 import { Mission } from '../data/gameData';
 import { supabase } from './supabase';
+import { getTodayKey } from './dailyStorage';
 
 interface CustomMissionRow {
   id: string;
@@ -36,6 +37,7 @@ export async function loadCustomMissions(): Promise<Mission[]> {
   const { data, error } = await supabase
     .from('custom_missions')
     .select('id, task')
+    .eq('mission_date', getTodayKey())
     .order('created_at', { ascending: true });
 
   if (error) throw error;
@@ -46,7 +48,7 @@ export async function createCustomMission(task: string): Promise<Mission> {
   await ensureUser();
   const { data, error } = await supabase
     .from('custom_missions')
-    .insert({ task })
+    .insert({ task, mission_date: getTodayKey() })
     .select('id, task')
     .single();
 

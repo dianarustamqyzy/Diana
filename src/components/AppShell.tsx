@@ -5,6 +5,7 @@ import { useGame } from '../context/GameContext';
 const links = [
   { href: '/game', icon: '⌂', label: 'Питомец' },
   { href: '/chat', icon: '◌', label: 'Чат' },
+  { href: '/games', icon: '▦', label: 'Игры' },
   { href: '/missions', icon: '✓', label: 'Миссии' },
   { href: '/shop', icon: '◇', label: 'Магазин' },
   { href: '/diary', icon: '♡', label: 'Дневник' },
@@ -22,7 +23,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <main className="page-content">{children}</main>
       <nav className="bottom-nav">
         {links.map((link) => (
-          <Link key={link.href} href={link.href} className={location === link.href ? 'nav-item active' : 'nav-item'}>
+          <Link key={link.href} href={link.href} className={location === link.href || (link.href === '/games' && ['/snake', '/block-game'].includes(location)) ? 'nav-item active' : 'nav-item'}>
             <span>{link.icon}</span>{link.label}
           </Link>
         ))}

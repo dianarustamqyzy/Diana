@@ -1,0 +1,151 @@
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+img,
+svg,
+canvas {
+  max-width: 100%;
+}
+
+.app-shell {
+  min-height: 100dvh;
+}
+
+@media (max-width: 600px) {
+  .app-shell {
+    padding-bottom: calc(82px + env(safe-area-inset-bottom));
+  }
+
+  .topbar {
+    padding-right: max(14px, env(safe-area-inset-right));
+    padding-left: max(14px, env(safe-area-inset-left));
+  }
+
+  .page-content {
+    width: calc(100% - 20px);
+    max-width: 540px;
+  }
+
+  .page-content > *,
+  .dashboard > *,
+  .mini-game-card > *,
+  .snake-game-card > *,
+  .block-game-card > *,
+  .sudoku-game-card > *,
+  .game-card > * {
+    min-width: 0;
+  }
+
+  .bottom-nav {
+    bottom: max(8px, env(safe-area-inset-bottom));
+    width: calc(100% - 16px - env(safe-area-inset-left) - env(safe-area-inset-right));
+    max-width: 540px;
+    gap: 2px;
+    padding: 6px 3px;
+  }
+
+  .nav-item {
+    gap: 4px;
+    padding: 7px 1px;
+    overflow: hidden;
+    font-size: clamp(8px, 2.35vw, 10px);
+    white-space: nowrap;
+  }
+
+  .nav-item span {
+    font-size: 19px;
+  }
+
+  .page-heading,
+  .greeting,
+  .pet-home-heading,
+  .mini-game-heading,
+  .snake-heading,
+  .block-game-heading {
+    min-width: 0;
+  }
+
+  .page-heading > div,
+  .greeting > div,
+  .pet-home-heading > div,
+  .mini-game-heading > div,
+  .snake-heading > div,
+  .block-game-heading > div {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .pet-stage {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .care-panel {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .pet-scene {
+    width: 100%;
+    border-radius: 22px;
+  }
+
+  .game-card h2,
+  .game-card p,
+  .chat-message p {
+    overflow-wrap: anywhere;
+  }
+
+  .guide-overlay,
+  .level-gift-backdrop {
+    padding-right: max(12px, env(safe-area-inset-right));
+    padding-left: max(12px, env(safe-area-inset-left));
+  }
+}
+
+@media (max-width: 380px) {
+  .page-content {
+    width: calc(100% - 16px);
+  }
+
+  .coin-pill {
+    padding: 8px 11px;
+  }
+
+  .greeting {
+    gap: 12px;
+    flex-direction: column;
+  }
+
+  .greeting-actions {
+    align-self: stretch;
+    justify-content: space-between;
+  }
+
+  .page-heading h1,
+  .pet-home-heading h1,
+  .mini-game-heading h1,
+  .snake-heading h1,
+  .block-game-heading h1 {
+    font-size: 32px;
+  }
+
+  .game-card {
+    gap: 14px;
+    padding: 17px;
+  }
+
+  .game-card h2 {
+    font-size: 23px;
+  }
+
+  .sudoku-controls button {
+    min-height: 36px;
+    font-size: 13px;
+  }
+}

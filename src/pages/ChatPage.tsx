@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import { ChatMessage } from '../components/ChatMessage';
+import { PetPortrait } from '../components/PetPortrait';
 import { useGame } from '../context/GameContext';
 import { petOptions } from '../data/gameData';
 import { askPet, ChatMessageData } from '../lib/petChat';
@@ -58,7 +59,7 @@ export function ChatPage() {
   return (
     <section className="chat-page">
       <header className="chat-heading">
-        <img src={pet.image} alt={pet.label} />
+        <PetPortrait image={pet.image} className="chat-heading-avatar" />
         <div><small>ЛИЧНЫЙ ЧАТ</small><h1>{petName}</h1><p><span /> рядом с тобой</p></div>
       </header>
 

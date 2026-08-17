@@ -1,0 +1,18 @@
+.sudoku-game-card { padding: clamp(16px, 4vw, 38px); display: grid; grid-template-columns: minmax(300px, 540px) 1fr; align-items: center; gap: clamp(24px, 5vw, 60px); border: 1px solid var(--line); border-radius: 28px; background: var(--card); box-shadow: var(--shadow); }
+.sudoku-board { aspect-ratio: 1; display: grid; grid-template-columns: repeat(9, 1fr); overflow: hidden; border: 3px solid #587361; border-radius: 12px; background: #587361; gap: 1px; }
+.sudoku-board button { min-width: 0; padding: 0; border: 0; color: var(--green); background: #fffefb; font-size: clamp(15px, 3.2vw, 27px); font-weight: 700; }
+.sudoku-board button:nth-child(3n) { border-right: 2px solid #587361; }
+.sudoku-board button:nth-child(9n) { border-right: 0; }
+.sudoku-board button:nth-child(n+19):nth-child(-n+27), .sudoku-board button:nth-child(n+46):nth-child(-n+54) { border-bottom: 2px solid #587361; }
+.sudoku-board button.fixed { color: #26332d; background: #eef3ea; cursor: default; }
+.sudoku-board button.selected { outline: 3px solid #f0b978; outline-offset: -3px; background: #fff4d9; }
+.sudoku-board button.wrong { color: #c95851; background: #fce8e4; }
+.sudoku-tools { display: grid; gap: 18px; }
+.sudoku-controls > div { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; }
+.sudoku-controls button { min-height: 48px; border: 1px solid #d6dfd3; border-radius: 12px; color: var(--green); background: #edf4eb; font-size: 18px; font-weight: 800; }
+.sudoku-controls button:hover:not(:disabled) { color: white; background: var(--green); }
+.sudoku-controls button:disabled { cursor: default; opacity: .45; }
+.sudoku-controls .sudoku-erase { width: 100%; margin-top: 8px; font-size: 12px; }
+.sudoku-new { padding: 12px; border: 0; border-radius: 12px; color: white; background: var(--green); font-weight: 800; }
+@media (max-width: 780px) { .sudoku-game-card { grid-template-columns: 1fr; }.sudoku-board { width: min(100%, 540px); margin: auto; }.sudoku-tools { max-width: 540px; width: 100%; margin: auto; } }
+@media (max-width: 520px) { .sudoku-game-card { padding: 10px; border-radius: 18px; }.sudoku-board { border-width: 2px; border-radius: 8px; }.sudoku-controls > div { grid-template-columns: repeat(9, 1fr); gap: 3px; }.sudoku-controls button { min-height: 40px; border-radius: 8px; font-size: 15px; } }

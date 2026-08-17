@@ -1,22 +1,24 @@
-import { ShopItem } from '../data/gameData';
+import { ShopItem } from '../data/shopData';
 
 interface ShopCardProps {
   item: ShopItem;
   isOwned: boolean;
   canBuy: boolean;
   quantity: number;
+  isWanted: boolean;
   onBuy: () => void;
   onGive: () => void;
 }
 
-export function ShopCard({ item, isOwned, canBuy, quantity, onBuy, onGive }: ShopCardProps) {
+export function ShopCard({ item, isOwned, canBuy, quantity, isWanted, onBuy, onGive }: ShopCardProps) {
   const isConsumable = Boolean(item.effect);
 
   return (
-    <article className={`shop-card ${isOwned ? 'owned' : ''}`}>
+    <article className={`shop-card${isOwned ? ' owned' : ''}${isWanted ? ' wanted' : ''}`}>
       <div className={`item-picture ${item.color}`}>
         {isOwned && <span className="owned-label">В коллекции ✓</span>}
         {isConsumable && <span className="item-quantity">Есть: {quantity}</span>}
+        {isWanted && <span className="wanted-label">Хочу! ♥</span>}
         <span className="item-emoji">{item.emoji}</span>
       </div>
       <div className="item-info">
