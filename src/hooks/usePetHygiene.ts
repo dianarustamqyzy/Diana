@@ -1,51 +1,49 @@
 import { useCallback, useEffect, useState } from 'react';
 
-const nextBathKey = 'pet-game-next-bath-at';
-const FIRST_BATH_DELAY_MS = 45_000;
-const MIN_BATH_BREAK_MS = 4 * 60_000;
-const EXTRA_BATH_BREAK_MS = 2 * 60_000;
+const completedBathKey = 'pet-game-completed-bath';
+const LUNCH_BATH_HOUR = 14;
 const BATH_DURATION_MS = 10_000;
 
-function createNextBathTime() {
-  return Date.now() + MIN_BATH_BREAK_MS + Math.random() * EXTRA_BATH_BREAK_MS;
-}
-
-function loadNextBathAt() {
-  const savedTime = Number(localStorage.getItem(nextBathKey));
-  if (Number.isFinite(savedTime) && savedTime > 0) return savedTime;
-  return Date.now() + FIRST_BATH_DELAY_MS;
+function getBathId(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
 
 export function usePetHygiene(isBusy: boolean) {
-  const [nextBathAt, setNextBathAt] = useState(loadNextBathAt);
   const [isBathing, setIsBathing] = useState(false);
-  const [now, setNow] = useState(Date.now);
+  const [now, setNow] = useState(() => new Date());
+  const [completedBathId, setCompletedBathId] = useState(
+    () => localStorage.getItem(completedBathKey),
+  );
+  const todayBathId = getBathId(now);
+  const isBathDue = now.getHours() >= LUNCH_BATH_HOUR && completedBathId !== todayBathId;
 
   useEffect(() => {
-    localStorage.setItem(nextBathKey, String(nextBathAt));
-  }, [nextBathAt]);
-
-  useEffect(() => {
-    const timer = window.setInterval(() => setNow(Date.now()), 1_000);
+    const timer = window.setInterval(() => setNow(new Date()), 1_000);
     return () => window.clearInterval(timer);
   }, []);
 
-  const startBath = useCallback(() => setIsBathing(true), []);
+  const startBath = useCallback(() => {
+    if (isBusy || isBathing || !isBathDue) return;
+    setIsBathing(true);
+  }, [isBathDue, isBathing, isBusy]);
 
   useEffect(() => {
-    if (isBusy || isBathing || now < nextBathAt) return;
+    if (isBusy || isBathing || !isBathDue) return;
     startBath();
-  }, [isBathing, isBusy, nextBathAt, now, startBath]);
+  }, [isBathDue, isBathing, isBusy, startBath]);
 
   useEffect(() => {
     if (!isBathing) return;
     const timer = window.setTimeout(() => {
+      localStorage.setItem(completedBathKey, todayBathId);
+      setCompletedBathId(todayBathId);
       setIsBathing(false);
-      setNextBathAt(createNextBathTime());
-      setNow(Date.now());
     }, BATH_DURATION_MS);
     return () => window.clearTimeout(timer);
-  }, [isBathing]);
+  }, [isBathing, todayBathId]);
 
   return { isBathing, startBath };
 }
