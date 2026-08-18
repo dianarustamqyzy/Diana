@@ -9,7 +9,7 @@
 .pet-home-heading p { margin: 0; color: var(--muted); }
 .pet-home-actions { display: flex; flex: 0 0 auto; align-items: center; gap: 10px; }
 .leave-home-button { flex: 0 0 auto; padding: 12px 17px; border: 1px solid #cbd9c9; border-radius: 999px; color: var(--green); background: #f7fbf6; font-size: 12px; font-weight: 900; }
-.pet-home-room { position: relative; aspect-ratio: 3 / 2; overflow: hidden; border: 1px solid #cba77f; border-radius: 30px; background-position: center; background-size: cover; box-shadow: 0 18px 45px rgba(70,61,50,.15); }
+.pet-home-room { position: relative; aspect-ratio: 3 / 2; overflow: hidden; border: 1px solid #cba77f; border-radius: 30px; background-image: var(--room-image); background-position: center; background-size: cover; box-shadow: 0 18px 45px rgba(70,61,50,.15); }
 .home-places { position: absolute; z-index: 2; inset: 0; }
 .home-place { position: absolute; border: 3px solid transparent; border-radius: 24px; color: #4b3b2d; background: transparent; transition: border-color .2s, background .2s, box-shadow .2s; }
 .home-place strong { position: absolute; left: 50%; bottom: 8px; padding: 6px 11px; border-radius: 999px; background: rgba(255,253,247,.92); box-shadow: 0 5px 14px rgba(74,48,31,.18); font-size: 12px; transform: translateX(-50%); opacity: 0; transition: opacity .2s; }
@@ -36,7 +36,7 @@
 .home-pet-shadow { position: absolute; left: 50%; bottom: 4%; width: 58%; height: 8%; border-radius: 50%; background: rgba(66,50,37,.22); filter: blur(5px); transform: translateX(-50%); }
 .home-pet--table .home-pet-image { inset: 8% 2% 0; }
 .home-pet--toilet .home-pet-image { inset: 15% 0 0; background-position: center bottom; }
-.home-toilet-foreground { position: absolute; z-index: 5; inset: 0; background-position: center; background-size: cover; clip-path: polygon(25.4% 34.2%, 31.5% 34.2%, 31.6% 36.8%, 31% 39.8%, 29.8% 41.5%, 27.5% 41.3%, 26.1% 39%, 25.5% 36.5%); pointer-events: none; }
+.home-toilet-foreground { position: absolute; z-index: 5; inset: 0; background-image: var(--room-image); background-position: center; background-size: cover; clip-path: polygon(25.4% 34.2%, 31.5% 34.2%, 31.6% 36.8%, 31% 39.8%, 29.8% 41.5%, 27.5% 41.3%, 26.1% 39%, 25.5% 36.5%); pointer-events: none; }
 .bathroom-door { position: absolute; z-index: 8; left: .2%; top: 3%; width: 36.4%; height: 49%; overflow: hidden; border: 7px solid #8b5a32; border-radius: 58px 12px 22px 0; background: linear-gradient(90deg, rgba(255,255,255,.16), transparent 18%, rgba(75,39,17,.12) 19%, transparent 22%), repeating-linear-gradient(90deg, #bd7a3f 0 24%, #a96632 24% 26%, #c88444 26% 50%); box-shadow: inset -12px 0 18px rgba(75,39,17,.18), 8px 8px 20px rgba(47,33,22,.24); transform-origin: left center; animation: close-bathroom-door .5s ease-out both; pointer-events: none; }
 .bathroom-door::before { content: ''; position: absolute; inset: 7% 8% 9%; border: 3px solid rgba(105,58,27,.58); border-radius: 42px 7px 10px 4px; box-shadow: inset 0 0 0 5px rgba(235,170,98,.16); }
 .bathroom-door-sign { position: absolute; left: 50%; top: 43%; padding: 7px 11px; border: 2px solid #795031; border-radius: 999px; color: #654329; background: #f5e6c9; box-shadow: 0 4px 8px rgba(63,36,20,.2); font-size: clamp(9px, 1vw, 13px); font-weight: 900; transform: translate(-50%, -50%); }
@@ -46,7 +46,7 @@
 .home-sleep-cloud { position: absolute; z-index: 6; right: -8%; top: -18%; color: #fff; font: 800 clamp(15px, 1.7vw, 24px) Georgia, serif; letter-spacing: .13em; text-shadow: 0 2px 7px rgba(76,53,31,.5); animation: sleep-float 2s ease-in-out infinite; }
 .home-pet-wish { position: absolute; z-index: 8; left: 50%; bottom: 88%; width: max-content; max-width: min(240px, 42vw); padding: 10px 13px; border: 2px solid #e4caa8; border-radius: 18px; color: #4b3b2d; background: #fffdf7; box-shadow: 0 8px 20px rgba(74,48,31,.18); font-size: clamp(11px, 1.15vw, 14px); font-weight: 800; line-height: 1.3; transform: translateX(-50%); pointer-events: none; }
 .home-pet-wish::after { content: ''; position: absolute; left: 50%; top: 100%; border: 8px solid transparent; border-top-color: #fffdf7; transform: translateX(-50%); }
-.home-table-foreground { position: absolute; z-index: 5; inset: 0; background-position: center; background-size: cover; clip-path: polygon(63% 27%, 80% 27%, 83% 34%, 82% 41%, 76% 41%, 76% 48%, 70% 48%, 70% 41%, 66% 41%, 66% 34%); pointer-events: none; }
+.home-table-foreground { position: absolute; z-index: 5; inset: 0; background-image: var(--room-image); background-position: center; background-size: cover; clip-path: polygon(63% 27%, 80% 27%, 83% 34%, 82% 41%, 76% 41%, 76% 48%, 70% 48%, 70% 41%, 66% 41%, 66% 34%); pointer-events: none; }
 .home-table-meal { position: absolute; z-index: 6; left: 70.5%; top: 29%; display: grid; width: clamp(30px, 3.4vw, 50px); aspect-ratio: 1; place-items: center; border: 4px solid rgba(255,255,255,.92); border-radius: 50%; background: #f8e6c9; box-shadow: 0 4px 9px rgba(74,48,31,.25); font-size: clamp(18px, 2vw, 29px); transform: translate(-50%, -50%); animation: meal-bite .7s ease-in-out infinite alternate; }
 .home-pet.is-eating .home-pet-image { animation: pet-eating .7s ease-in-out infinite alternate; }
 .home-pet.is-bathing { opacity: 0; }

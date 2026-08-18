@@ -66,6 +66,7 @@ export function useDraggablePet(
 
   return {
     isDragging,
+    position,
     hasPosition: Boolean(position),
     positionStyle,
     resetPosition,

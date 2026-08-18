@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { CSSProperties, useEffect, useRef, useState } from 'react';
 import roomImage from '../assets/scenes/pet-home-room.jpg';
+import mobileRoomImage from '../assets/scenes/pet-home-room-mobile.jpg';
 import { petOptions, PetType } from '../data/gameData';
 import { PetMeal } from '../context/gameState';
 import { useDraggablePet } from '../hooks/useDraggablePet';
@@ -35,11 +36,12 @@ export function PetHomeRoom({
   const isUsingToilet = isToiletNeeded;
   const roomRef = useRef<HTMLDivElement>(null);
   const petRef = useRef<HTMLDivElement>(null);
+  const bedRef = useRef<HTMLButtonElement>(null);
   const shouldSleep = isBedtime && !isToiletNeeded && !activeMeal;
-  const { isDragging, hasPosition, positionStyle, resetPosition, dragHandlers } = useDraggablePet(
+  const { isDragging, position, hasPosition, positionStyle, resetPosition, dragHandlers } = useDraggablePet(
     roomRef,
     petRef,
-    shouldSleep || isBathing || isUsingToilet || Boolean(activeMeal),
+    isBathing || isUsingToilet || Boolean(activeMeal),
   );
 
   useEffect(() => {
@@ -65,6 +67,21 @@ export function PetHomeRoom({
     setActivePlace('bed');
   }, [resetPosition, shouldSleep]);
 
+  useEffect(() => {
+    if (activePlace !== 'bed' || !position || !bedRef.current || !petRef.current) return;
+
+    const bedBounds = bedRef.current.getBoundingClientRect();
+    const petBounds = petRef.current.getBoundingClientRect();
+    const petCenterX = petBounds.left + petBounds.width / 2;
+    const petCenterY = petBounds.top + petBounds.height / 2;
+    const isInsideBed = petCenterX >= bedBounds.left
+      && petCenterX <= bedBounds.right
+      && petCenterY >= bedBounds.top
+      && petCenterY <= bedBounds.bottom;
+
+    if (!isInsideBed) setActivePlace('center');
+  }, [activePlace, position]);
+
   function choosePlace(place: HomePlace) {
     if (shouldSleep || activeMeal || isBathing || isUsingToilet) return;
     resetPosition();
@@ -74,11 +91,19 @@ export function PetHomeRoom({
   }
 
   return (
-    <div ref={roomRef} className="pet-home-room" style={{ backgroundImage: `url(${roomImage})` }}>
+    <div
+      ref={roomRef}
+      className="pet-home-room"
+      style={{
+        '--room-image': `url(${roomImage})`,
+        '--mobile-room-image': `url(${mobileRoomImage})`,
+      } as CSSProperties}
+    >
       <div className="home-places">
         {homePlaces.map((place) => (
           <button
             key={place.id}
+            ref={place.id === 'bed' ? bedRef : undefined}
             className={`home-place home-place--${place.id}${activePlace === place.id ? ' active' : ''}${place.id === 'toilet' && isToiletNeeded ? ' needs-attention' : ''}`}
             type="button"
             disabled={shouldSleep || Boolean(activeMeal) || isBathing || isUsingToilet}
@@ -114,7 +139,6 @@ export function PetHomeRoom({
           {isUsingToilet && (
             <div
               className="home-toilet-foreground"
-              style={{ backgroundImage: `url(${roomImage})` }}
               aria-hidden="true"
             />
           )}
@@ -129,7 +153,6 @@ export function PetHomeRoom({
       {activePlace === 'table' && (
         <div
           className="home-table-foreground"
-          style={{ backgroundImage: `url(${roomImage})` }}
           aria-hidden="true"
         />
       )}
