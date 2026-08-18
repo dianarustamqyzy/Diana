@@ -88,7 +88,7 @@
 .stats-list { margin-top: 30px; display: grid; gap: 19px; }
 .stat-row { display: flex; align-items: center; gap: 13px; }
 .stat-icon { width: 39px; height: 39px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 12px; font-size: 18px; }
-.stat-info { flex: 1; }.stat-info > div:first-child { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px; }.stat-info span { color: #909891; }
+.stat-info { flex: 1; }.stat-info > div:first-child { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px; }.stat-info > div:first-child > span { font-size: 10px; }.stat-info span { color: #909891; }
 .stat-track { height: 6px; overflow: hidden; border-radius: 10px; background: #e9e8e1; }.stat-track span { display: block; height: 100%; border-radius: inherit; }
 .blue { background: #e8f4fa !important; color: #66a9ca !important; }.purple { background: #f1ecf8 !important; color: #9479b7 !important; }.orange { background: #fff0df !important; color: #e49954 !important; }.pink { background: #fce9e8 !important; color: #df7c76 !important; }.green { background: #e9f4eb !important; color: #5b9971 !important; }
 .stat-track .blue { background: #6eb5d6 !important; }.stat-track .purple { background: #9d85bc !important; }.stat-track .orange { background: #eda15e !important; }.stat-track .pink { background: #e68078 !important; }
