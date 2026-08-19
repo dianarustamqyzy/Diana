@@ -1,24 +1,21 @@
 import { createContext, ReactNode, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { missions, PetType } from '../data/gameData';
+import { missions } from '../data/gameData';
 import { ShopItem } from '../data/shopData';
-import { getTodayKey, loadDailyProgress, loadLifetimeProgress, loadProfile, saveDailyProgress, saveLifetimeProgress, saveProfile } from '../lib/dailyStorage';
+import { getTodayKey, loadDailyProgress, loadLifetimeProgress, saveDailyProgress, saveLifetimeProgress } from '../lib/dailyStorage';
 import { getLevel, isGiftLevel, LEVEL_GIFT_COINS } from '../lib/levelProgress';
 import { completeCareWish, createCareWishRoutine, refreshCareWishRoutine } from '../lib/petWishes';
 import { CareStats, GameState } from './gameState';
 import { usePetToilet } from '../hooks/usePetToilet';
 import { usePetMeal } from '../hooks/usePetMeal';
 import { usePetHygiene } from '../hooks/usePetHygiene';
+import { usePlayerProfile } from '../hooks/usePlayerProfile';
 
 const GameContext = createContext<GameState | null>(null);
 
 export function GameProvider({ children }: { children: ReactNode }) {
-  const savedProfile = useMemo(loadProfile, []);
   const initialDaily = useMemo(loadDailyProgress, []);
   const initialLifetime = useMemo(() => loadLifetimeProgress(initialDaily.completed.length), [initialDaily.completed.length]);
   const [today, setToday] = useState(getTodayKey);
-  const [playerName, setPlayerName] = useState(savedProfile?.playerName ?? 'Аня');
-  const [petName, setPetName] = useState(savedProfile?.petName ?? 'Рыжик');
-  const [petType, setPetType] = useState<PetType>(savedProfile?.petType ?? 'cat');
   const [coins, setCoins] = useState(initialLifetime.coins);
   const [completed, setCompleted] = useState<string[]>(initialDaily.completed);
   const completedRef = useRef(initialDaily.completed);
@@ -27,6 +24,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [purchased, setPurchased] = useState<string[]>([]);
   const [inventory, setInventory] = useState<Record<string, number>>({});
   const [pendingLevelGift, setPendingLevelGift] = useState<number | null>(null);
+  const { playerName, petName, petType, startGame, adoptNewPet } = usePlayerProfile(() => {
+    totalCompletedRef.current = 0;
+    setTotalCompleted(0);
+    setPendingLevelGift(null);
+  });
   const [care, setCare] = useState<CareStats>({ food: initialDaily.food, water: initialDaily.water });
   const [careRoutine, setCareRoutine] = useState(() => createCareWishRoutine(
     { food: initialDaily.foodWishId, water: initialDaily.waterWishId },
@@ -90,13 +92,6 @@ export function GameProvider({ children }: { children: ReactNode }) {
     };
   }, [today]);
 
-  function startGame(player: string, pet: string, type: PetType) {
-    setPlayerName(player);
-    setPetName(pet);
-    setPetType(type);
-    saveProfile({ playerName: player, petName: pet, petType: type });
-  }
-
   function addCoins(amount: number) {
     setCoins((current) => current + amount);
   }
@@ -140,7 +135,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo(() => ({
     today, playerName, petName, petType, level, coins, completed, purchased, inventory, care, wishes, activeMeal, isToiletNeeded, isBathing,
-    pendingLevelGift, startGame, addCoins, completeMission, dismissLevelGift: () => setPendingLevelGift(null), buyItem, giveItem,
+    pendingLevelGift, startGame, adoptNewPet, addCoins, completeMission, dismissLevelGift: () => setPendingLevelGift(null), buyItem, giveItem,
     startBath,
   }), [today, playerName, petName, petType, level, coins, completed, purchased, inventory, care, wishes, activeMeal, isToiletNeeded, isBathing, pendingLevelGift, startBath]);
 

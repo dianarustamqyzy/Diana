@@ -33,6 +33,10 @@
 .setup-card .primary-button { width: 100%; display: flex; justify-content: space-between; }
 .register-link { margin-top: 16px; display: inline-block; color: var(--green); font-size: 13px; font-weight: 800; }
 .register-link:hover { color: var(--coral); }
+.grown-pet-avatar { width: fit-content; margin-top: 12px; }
+.grown-pet-avatar .pet-avatar { margin: 0; }
+.new-pet-name { grid-template-columns: 1fr; }
+.new-pet-note { margin: 14px 0 0; color: var(--muted); font-size: 12px; }
 @keyframes pet-breathe { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-5px) scaleX(1.018) scaleY(.985); } }
 @keyframes sparkle { 50% { transform: scale(.6) rotate(25deg); opacity: .45; } }
 
@@ -40,5 +44,5 @@
   .pet-image, .pet-choice-image, .spark { animation: none; }
 }
 
-@media (max-width: 900px) { .welcome-page { grid-template-columns: 1fr; padding-block: 35px; }.welcome-copy { text-align: center; margin: auto; }.welcome-copy .brand-mark { margin: 0 auto 22px; }.welcome-copy h1 { font-size: 48px; }.welcome-copy > p:not(.eyebrow) { margin: auto; }.sitting-friends { margin-inline: auto; } }
+@media (max-width: 900px) { .welcome-page { grid-template-columns: 1fr; padding-block: 35px; }.welcome-copy { text-align: center; margin: auto; }.welcome-copy .brand-mark { margin: 0 auto 22px; }.welcome-copy h1 { font-size: 48px; }.welcome-copy > p:not(.eyebrow) { margin: auto; }.sitting-friends, .grown-pet-avatar { margin-inline: auto; } }
 @media (max-width: 520px) { .welcome-page { padding: 24px 14px; gap: 28px; }.welcome-copy h1 { font-size: 38px; }.welcome-copy > p:not(.eyebrow) { font-size: 15px; }.setup-card { padding: 26px 18px; border-radius: 25px; }.pet-picker { grid-template-columns: repeat(4, 1fr); }.name-fields { grid-template-columns: 1fr; } }

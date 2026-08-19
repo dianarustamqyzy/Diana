@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useGame } from '../context/GameContext';
-import { LEVEL_GIFT_COINS } from '../lib/levelProgress';
+import { getNextGiftLevel, LEVEL_GIFT_COINS, MAX_PET_LEVEL } from '../lib/levelProgress';
 
 export function LevelGift() {
   const { pendingLevelGift, dismissLevelGift } = useGame();
@@ -16,6 +16,8 @@ export function LevelGift() {
 
   if (pendingLevelGift === null) return null;
 
+  const nextGiftLevel = getNextGiftLevel(pendingLevelGift);
+
   return (
     <div className="level-gift-backdrop" role="presentation">
       <section className="level-gift" role="dialog" aria-modal="true" aria-labelledby="level-gift-title">
@@ -24,7 +26,9 @@ export function LevelGift() {
         <p>ЮБИЛЕЙНЫЙ УРОВЕНЬ</p>
         <h2 id="level-gift-title">Уровень {pendingLevelGift}!</h2>
         <strong>+{LEVEL_GIFT_COINS} монет</strong>
-        <span>Подарок уже в твоём кошельке 🎉</span>
+        <span>{pendingLevelGift === MAX_PET_LEVEL
+          ? 'Подарок уже в твоём кошельке 🎉 А питомец теперь совсем взрослый!'
+          : `Подарок уже в твоём кошельке 🎉 Следующий — на ${nextGiftLevel}-м уровне.`}</span>
         <button type="button" onClick={dismissLevelGift} autoFocus>Забрать подарок</button>
       </section>
     </div>

@@ -39,7 +39,7 @@ export function ShopPage() {
   }
 
   return (
-    <section className="standard-page">
+    <section className="standard-page shop-page">
       <header className="page-heading">
         <div><p className="eyebrow">МИЛЫЕ СОКРОВИЩА</p><h1>Магазин для {petName}</h1><p>Награди питомца за ваши полезные приключения.</p></div>
         <div className="wallet"><span>●</span><div><small>ТВОИ МОНЕТКИ</small><strong>{coins}</strong></div></div>

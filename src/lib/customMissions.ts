@@ -45,13 +45,17 @@ export async function loadCustomMissions(): Promise<Mission[]> {
 }
 
 export async function createCustomMission(task: string): Promise<Mission> {
+  const [mission] = await createCustomMissions([task]);
+  return mission;
+}
+
+export async function createCustomMissions(tasks: string[]): Promise<Mission[]> {
   await ensureUser();
   const { data, error } = await supabase
     .from('custom_missions')
-    .insert({ task, mission_date: getTodayKey() })
+    .insert(tasks.map((task) => ({ task, mission_date: getTodayKey() })))
     .select('id, task')
-    .single();
 
   if (error) throw error;
-  return toMission(data as CustomMissionRow);
+  return (data as CustomMissionRow[]).map(toMission);
 }

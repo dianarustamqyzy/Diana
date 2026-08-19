@@ -32,6 +32,7 @@ export interface GameState {
   isBathing: boolean;
   pendingLevelGift: number | null;
   startGame: (player: string, pet: string, type: PetType) => void;
+  adoptNewPet: (pet: string, type: PetType) => void;
   addCoins: (amount: number) => void;
   completeMission: (id: string) => void;
   dismissLevelGift: () => void;

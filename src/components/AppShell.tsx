@@ -30,7 +30,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
         <div className="coin-pill"><span>●</span> {coins}</div>
       </header>
-      <main className="page-content">{children}</main>
+      <main className={`page-content${location === '/shop' ? ' shop-content' : ''}`}>{children}</main>
       <nav className="bottom-nav">
         {links.map((link) => (
           <Link key={link.href} href={link.href} className={location === link.href || (link.href === '/games' && ['/snake', '/block-game'].includes(location)) ? 'nav-item active' : 'nav-item'}>

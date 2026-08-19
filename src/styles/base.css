@@ -19,6 +19,7 @@
 .coin-pill { background: #fff3ce; color: #8e6720; border: 1px solid #f1dda0; border-radius: 999px; padding: 9px 15px; font-weight: 800; }
 .coin-pill span, .reward, .wallet > span { color: #eeb73f; }
 .page-content { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+.page-content.shop-content { width: min(1380px, calc(100% - 40px)); }
 .bottom-nav { position: fixed; z-index: 10; bottom: 18px; left: 50%; transform: translateX(-50%); display: flex; gap: 5px; padding: 8px; border: 1px solid rgba(220, 216, 206, .9); border-radius: 24px; background: rgba(255, 255, 252, .94); backdrop-filter: blur(14px); box-shadow: 0 12px 38px rgba(44, 53, 47, .15); }
 .nav-item { min-width: 94px; padding: 9px 14px; display: flex; gap: 6px; flex-direction: column; align-items: center; border-radius: 17px; color: #8b938c; font-size: 11px; font-weight: 750; }
 .nav-item span { font-size: 20px; line-height: 1; }
@@ -32,6 +33,7 @@
   .mini-brand.mobile-hidden-at-home { display: none; }
   .mobile-home-welcome { display: block; max-width: min(64vw, 270px); margin: 0; font: 600 clamp(17px, 5vw, 22px)/1.05 Georgia, serif; }
   .page-content { width: min(100% - 24px, 540px); }
+  .page-content.shop-content { width: min(100% - 24px, 540px); }
   .bottom-nav { bottom: 8px; width: calc(100% - 16px); justify-content: space-around; border-radius: 20px; }
   .nav-item { min-width: 0; flex: 1; padding: 8px 4px; }
 }

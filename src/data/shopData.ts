@@ -54,4 +54,10 @@ export const shopItems: ShopItem[] = [
 
   { id: 'home', emoji: '⛺', name: 'Домик-мечта', price: 250, bonus: '+30 уюта', color: 'purple', category: 'home' },
   { id: 'bed', emoji: '🛏️', name: 'Облачная кроватка', price: 320, bonus: '+35 сил', color: 'sky', category: 'home' },
+  { id: 'pillow', emoji: '🛋️', name: 'Мягкая подушечка', price: 90, bonus: '+12 уюта', color: 'rose', category: 'home' },
+  { id: 'lamp', emoji: '🪔', name: 'Тёплый ночник', price: 130, bonus: '+16 спокойствия', color: 'yellow', category: 'home' },
+  { id: 'plant', emoji: '🪴', name: 'Зелёный дружок', price: 115, bonus: '+14 свежести', color: 'green', category: 'home' },
+  { id: 'books', emoji: '📚', name: 'Полка сказок', price: 180, bonus: '+20 вдохновения', color: 'peach', category: 'home' },
+  { id: 'rug', emoji: '🧶', name: 'Пушистый коврик', price: 155, bonus: '+18 уюта', color: 'orange', category: 'home' },
+  { id: 'music-box', emoji: '🎵', name: 'Музыкальная шкатулка', price: 220, bonus: '+25 настроения', color: 'blue', category: 'home' },
 ];
