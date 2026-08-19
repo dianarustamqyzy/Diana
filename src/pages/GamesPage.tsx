@@ -7,6 +7,9 @@ const games = [
   { href: '/rps', icon: '✌️', title: 'Камень, ножницы, бумага', text: 'Выбирай жест и попробуй обыграть питомца.', color: 'sunny' },
   { href: '/quick-math', icon: '➕', title: 'Быстрый счёт', text: 'Решай короткие примеры и собирай монетки.', color: 'blue' },
   { href: '/sudoku', icon: '🔢', title: 'Судоку', text: 'Заполни поле цифрами от 1 до 9 без повторов.', color: 'mint' },
+  { href: '/tic-tac-toe', icon: '❌', title: 'Крестики-нолики', text: 'Собери три крестика в ряд раньше питомца.', color: 'coral' },
+  { href: '/guess-number', icon: '🔮', title: 'Угадай число', text: 'Найди загаданное число с помощью подсказок.', color: 'lavender' },
+  { href: '/reaction', icon: '⚡', title: 'Быстрая лапка', text: 'Дождись сигнала и нажми как можно быстрее.', color: 'sunny' },
 ];
 
 export function GamesPage() {

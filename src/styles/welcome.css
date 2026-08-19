@@ -1,4 +1,6 @@
 .welcome-page { min-height: 100vh; display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; gap: clamp(40px, 8vw, 120px); padding: 50px max(6vw, 28px); background: radial-gradient(circle at 10% 20%, #fffdf6 0 22%, transparent 42%), #f4efe2; }
+.language-picker { position: absolute; top: 24px; right: max(3vw, 18px); z-index: 2; display: flex; align-items: center; gap: 9px; padding: 8px 10px 8px 13px; border: 1px solid #e2d9c8; border-radius: 14px; color: #59655e; background: rgba(255, 254, 250, .94); box-shadow: 0 5px 18px rgba(53, 61, 50, .08); font-size: 12px; font-weight: 800; }
+.language-picker select { padding: 5px 28px 5px 8px; border: 0; border-left: 1px solid #e2d9c8; outline: none; color: var(--ink); background: transparent; font-weight: 700; cursor: pointer; }
 .welcome-copy { max-width: 550px; }
 .welcome-copy .brand-mark { margin-bottom: 34px; }
 .welcome-copy h1 { margin: 14px 0 22px; font-family: Georgia, serif; font-size: clamp(42px, 5.4vw, 74px); line-height: .98; letter-spacing: -.04em; }
@@ -44,5 +46,5 @@
   .pet-image, .pet-choice-image, .spark { animation: none; }
 }
 
-@media (max-width: 900px) { .welcome-page { grid-template-columns: 1fr; padding-block: 35px; }.welcome-copy { text-align: center; margin: auto; }.welcome-copy .brand-mark { margin: 0 auto 22px; }.welcome-copy h1 { font-size: 48px; }.welcome-copy > p:not(.eyebrow) { margin: auto; }.sitting-friends, .grown-pet-avatar { margin-inline: auto; } }
-@media (max-width: 520px) { .welcome-page { padding: 24px 14px; gap: 28px; }.welcome-copy h1 { font-size: 38px; }.welcome-copy > p:not(.eyebrow) { font-size: 15px; }.setup-card { padding: 26px 18px; border-radius: 25px; }.pet-picker { grid-template-columns: repeat(4, 1fr); }.name-fields { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .welcome-page { grid-template-columns: 1fr; padding-block: 88px 35px; }.welcome-copy { text-align: center; margin: auto; }.welcome-copy .brand-mark { margin: 0 auto 22px; }.welcome-copy h1 { font-size: 48px; }.welcome-copy > p:not(.eyebrow) { margin: auto; }.sitting-friends, .grown-pet-avatar { margin-inline: auto; } }
+@media (max-width: 520px) { .welcome-page { padding: 82px 14px 24px; gap: 28px; }.language-picker { top: 18px; right: 14px; }.welcome-copy h1 { font-size: 38px; }.welcome-copy > p:not(.eyebrow) { font-size: 15px; }.setup-card { padding: 26px 18px; border-radius: 25px; }.pet-picker { grid-template-columns: repeat(4, 1fr); }.name-fields { grid-template-columns: 1fr; } }

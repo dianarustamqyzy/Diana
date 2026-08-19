@@ -20,6 +20,9 @@ import { RpsGamePage } from './pages/RpsGamePage';
 import { QuickMathPage } from './pages/QuickMathPage';
 import { SnakeGamePage } from './pages/SnakeGamePage';
 import { SudokuPage } from './pages/SudokuPage';
+import { TicTacToePage } from './pages/TicTacToePage';
+import { GuessNumberPage } from './pages/GuessNumberPage';
+import { ReactionGamePage } from './pages/ReactionGamePage';
 
 export default function App() {
   return (
@@ -43,6 +46,9 @@ export default function App() {
           <Route path="/rps"><AppShell><RpsGamePage /></AppShell></Route>
           <Route path="/quick-math"><AppShell><QuickMathPage /></AppShell></Route>
           <Route path="/sudoku"><AppShell><SudokuPage /></AppShell></Route>
+          <Route path="/tic-tac-toe"><AppShell><TicTacToePage /></AppShell></Route>
+          <Route path="/guess-number"><AppShell><GuessNumberPage /></AppShell></Route>
+          <Route path="/reaction"><AppShell><ReactionGamePage /></AppShell></Route>
           <Route component={NotFoundPage} />
         </Switch>
       </PetGrowthGate>
