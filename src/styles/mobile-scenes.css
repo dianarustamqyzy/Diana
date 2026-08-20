@@ -68,7 +68,7 @@
     border: 0;
     border-radius: 0;
     background-position: center;
-    background-size: 122% 100%;
+    background-size: 100% 100%;
   }
 
   .mobile-scene-hint {
@@ -137,14 +137,14 @@
     border-radius: 0;
     background-image: var(--mobile-room-image);
     background-position: center;
-    background-size: 122% 100%;
+    background-size: 100% 100%;
   }
 
   .home-table-foreground,
   .home-toilet-foreground {
     background-image: var(--mobile-room-image);
     background-position: center;
-    background-size: 122% 100%;
+    background-size: 100% 100%;
   }
 
   .home-place--bath {
