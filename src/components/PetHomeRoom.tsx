@@ -1,6 +1,6 @@
 import { CSSProperties, useEffect, useRef, useState } from 'react';
 import roomImage from '../assets/scenes/pet-home-room.jpg';
-import mobileRoomImage from '../assets/scenes/pet-home-room-mobile.jpg';
+import mobileRoomImage from '../assets/scenes/pet-home-room-mobile-v2.jpg';
 import { petOptions, PetType } from '../data/gameData';
 import { PetMeal } from '../context/gameState';
 import { useDraggablePet } from '../hooks/useDraggablePet';
